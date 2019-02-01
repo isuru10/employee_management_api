@@ -41,4 +41,8 @@ private Set<Employee> employees = new HashSet<>();
     public void setDescription(String description) {
         this.description = description;
     }
+
+    public void setEmployees(Set<Employee> employees) {
+        this.employees = employees;
+    }
 }

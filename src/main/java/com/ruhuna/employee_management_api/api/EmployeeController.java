@@ -8,20 +8,20 @@ import com.ruhuna.employee_management_api.viewModel.EmployeeViewModel;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.EntityNotFoundException;
 import javax.xml.bind.ValidationException;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/employees")
+@CrossOrigin
 public class EmployeeController {
     private EmployeeRepository employeeRepository;
-    private SkillRepository skillRepository;
     private Mapper mapper;
 
-    public EmployeeController(EmployeeRepository employeeRepository, SkillRepository skillRepository, Mapper mapper){
+    public EmployeeController(EmployeeRepository employeeRepository, Mapper mapper){
         this.employeeRepository = employeeRepository;
-        this.skillRepository = skillRepository;
         this.mapper = mapper;
     }
 
@@ -37,13 +37,13 @@ public class EmployeeController {
     public EmployeeViewModel getById(@PathVariable long id){
         Employee employee = employeeRepository.findById(id).orElse(null);
         if(employee == null){
-            return null;
+            throw new EntityNotFoundException();
         }
         return this.mapper.convertToEmployeeViewModel(employee);
     }
 
     @PostMapping
-    public Employee save(@RequestBody EmployeeViewModel viewModel, BindingResult bindingResult) throws ValidationException {
+    public EmployeeViewModel save(@RequestBody EmployeeViewModel viewModel, BindingResult bindingResult) throws ValidationException {
         if(bindingResult.hasErrors()){
             throw new ValidationException("Employee");
         }
@@ -51,7 +51,12 @@ public class EmployeeController {
         Employee employee = this.mapper.convertToEmployee(viewModel);
         this.employeeRepository.save(employee);
 
-        return employee;
+        return this.mapper.convertToEmployeeViewModel(employee);
+    }
+
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable Long id){
+        this.employeeRepository.deleteById(id);
     }
 
 }
