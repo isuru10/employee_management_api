@@ -32,7 +32,12 @@ public class Mapper {
         viewModel.setEmail(employee.getEmail());
 
         List<SkillViewModel> skills = employee.getSkills().stream()
-                .map(skill -> convertToSkillViewModel(skill))
+                .map(skill ->{
+                    SkillViewModel viewModel1 = new SkillViewModel();
+                    viewModel1.setId(skill.getId());
+                    viewModel1.setDescription(skill.getDescription());
+                    return viewModel1;
+                })
                 .collect(Collectors.toList());
         viewModel.setSkills(skills);
 
@@ -42,6 +47,21 @@ public class Mapper {
     public SkillViewModel convertToSkillViewModel(Skill skill){
         SkillViewModel viewModel = new SkillViewModel(skill.getDescription());
         viewModel.setId(skill.getId());
+
+        Set<Employee> employees = skill.getEmployees();
+
+        List<EmployeeViewModel> employeeViewModels = employees.stream()
+                .map(employee -> {
+                    EmployeeViewModel viewModel2 = new EmployeeViewModel();
+                    viewModel2.setId(employee.getId());
+                    viewModel2.setName(employee.getName());
+                    viewModel2.setDob(employee.getDob());
+                    viewModel2.setEmail(employee.getEmail());
+                    return viewModel2;
+                })
+                .collect(Collectors.toList());
+
+        viewModel.setEmployees(employeeViewModels);
 
         return viewModel;
     }

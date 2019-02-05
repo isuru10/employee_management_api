@@ -29,11 +29,19 @@ public class SkillViewModel {
         return description;
     }
 
+    public List<EmployeeViewModel> getEmployees() {
+        return employees;
+    }
+
     public void setId(Long id) {
         this.id = id;
     }
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public void setEmployees(List<EmployeeViewModel> employees) {
+        this.employees = employees;
     }
 }
