@@ -67,11 +67,15 @@ public class Mapper {
     }
 
     public Employee convertToEmployee(EmployeeViewModel viewModel){
-        Employee employee = new Employee();
+
+        Employee employee;
 
         if(viewModel.getId() != null){
-            employee.setId(viewModel.getId());
+            employee = employeeRepository.findById(viewModel.getId()).get();
+        }else{
+            employee = new Employee();
         }
+
         employee.setName(viewModel.getName());
         employee.setDob(viewModel.getDob());
         employee.setEmail(viewModel.getEmail());
@@ -84,16 +88,18 @@ public class Mapper {
                 }).collect(Collectors.toSet());
 
         employee.setSkills(skills);
-
         return employee;
+
     }
 
     public Skill convertToSkill(SkillViewModel viewModel){
-        Skill skill = new Skill();
+        Skill skill;
 
-        skill.setDescription(viewModel.getDescription());
         if(viewModel.getId() != null){
-            skill.setId(viewModel.getId());
+            skill = skillRepository.findById(viewModel.getId()).get();
+            skill.setDescription(viewModel.getDescription());
+        }else{
+            skill = new Skill(viewModel.getDescription());
         }
 
         return skill;
