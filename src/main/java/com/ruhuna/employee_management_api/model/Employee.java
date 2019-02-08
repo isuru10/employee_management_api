@@ -15,7 +15,7 @@ public class Employee {
     private String email;
     private Date dob;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(
             name = "employee_skills",
             joinColumns = {@JoinColumn(name = "employee_id")},

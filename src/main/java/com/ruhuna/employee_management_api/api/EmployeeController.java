@@ -8,6 +8,7 @@ import com.ruhuna.employee_management_api.viewModel.EmployeeViewModel;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.EntityManager;
 import javax.persistence.EntityNotFoundException;
 import javax.xml.bind.ValidationException;
 import java.util.List;
@@ -19,10 +20,12 @@ import java.util.stream.Collectors;
 public class EmployeeController {
     private EmployeeRepository employeeRepository;
     private Mapper mapper;
+    private EntityManager em;
 
-    public EmployeeController(EmployeeRepository employeeRepository, Mapper mapper){
+    public EmployeeController(EmployeeRepository employeeRepository, Mapper mapper, EntityManager em){
         this.employeeRepository = employeeRepository;
         this.mapper = mapper;
+        this.em = em;
     }
 
     @GetMapping("/all")
@@ -57,6 +60,8 @@ public class EmployeeController {
     @DeleteMapping("/{id}")
     public void delete(@PathVariable Long id){
         this.employeeRepository.deleteById(id);
+//        Employee e = em.find(Employee.class, id);
+//        System.out.println(e);
     }
 
 }
