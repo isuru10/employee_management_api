@@ -2,6 +2,7 @@ package com.ruhuna.employee_management_api.api;
 
 import com.ruhuna.employee_management_api.Mapper;
 import com.ruhuna.employee_management_api.db.EmployeeRepository;
+import com.ruhuna.employee_management_api.db.SkillRepository;
 import com.ruhuna.employee_management_api.model.Employee;
 import com.ruhuna.employee_management_api.viewModel.EmployeeViewModel;
 import org.junit.jupiter.api.BeforeEach;
@@ -30,11 +31,14 @@ public class EmployeeControllerTest {
     private EmployeeRepository employeeRepository;
 
     @Mock
+    private SkillRepository skillRepository;
+
+    @Mock
     private Mapper mapper;
 
     @BeforeEach
     public void setUp() {
-        employeeController = new EmployeeController(employeeRepository, mapper, null);
+        employeeController = new EmployeeController(employeeRepository, skillRepository, mapper, null);
     }
 
     @Test
@@ -78,14 +82,19 @@ public class EmployeeControllerTest {
         BindingResult bindingResult = mock(BindingResult.class);
 
         when(bindingResult.hasErrors()).thenReturn(false);
-        when(mapper.convertToEmployee(viewModel)).thenReturn(employee);
-        when(mapper.convertToEmployeeViewModel(employee)).thenReturn(viewModel);
+        when(mapper.updateEmployeeFromViewModel(any(Employee.class), any(EmployeeViewModel.class), anySet())).thenAnswer(invocation -> {
+            Employee emp = invocation.getArgument(0);
+            emp.setName("Jane Doe");
+            emp.setEmail("jane@example.com");
+            return emp;
+        });
+        when(mapper.convertToEmployeeViewModel(any(Employee.class))).thenReturn(viewModel);
 
         EmployeeViewModel result = employeeController.save(viewModel, bindingResult);
 
         assertNotNull(result);
         assertEquals("Jane Doe", result.name());
-        verify(employeeRepository, times(1)).save(employee);
+        verify(employeeRepository, times(1)).save(any(Employee.class));
     }
 
     @Test

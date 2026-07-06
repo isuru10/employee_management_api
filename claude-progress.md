@@ -5,8 +5,8 @@ This log tracks all agent sessions, features completed, and verification outcome
 ---
 
 ## Active Status
-- **Current Phase:** View Model Modernization
-- **Active Feature:** Convert ViewModels to Java Records (F-04)
+- **Current Phase:** Pure Mapping Layer Decoupling
+- **Active Feature:** Decouple Mapper from Repositories (F-05)
 - **Status:** Completed
 
 ---
@@ -68,3 +68,13 @@ This log tracks all agent sessions, features completed, and verification outcome
   - Updated the JUnit 5 test suite to compile and test against the new immutable structures.
   - Confirmed all 18 test cases pass successfully.
 - **Status:** Completed F-04. ViewModels converted to Java records.
+
+### Session 7: 2026-07-06T18:53Z
+- **Objective:** Execute F-05: Decouple Mapper from Repositories.
+- **Accomplishments:**
+  - Removed all JPA repository dependencies from `Mapper.java`, converting it into a pure mapper that only translates between types without side-effects.
+  - Injected `SkillRepository` into `EmployeeController` to resolve entities from descriptions before triggering map translations.
+  - Modified entity saving controller endpoints to resolve existing instances (via `findById()`) in the controller layer rather than the mapper layer.
+  - Updated unit test setups and mappings to align with pure mapping method signatures.
+  - Verified compilation and confirmed all 18 test cases continue to pass successfully.
+- **Status:** Completed F-05. Mapper decoupled from database repositories.

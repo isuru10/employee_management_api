@@ -1,7 +1,5 @@
 package com.ruhuna.employee_management_api;
 
-import com.ruhuna.employee_management_api.db.EmployeeRepository;
-import com.ruhuna.employee_management_api.db.SkillRepository;
 import com.ruhuna.employee_management_api.model.Employee;
 import com.ruhuna.employee_management_api.model.Skill;
 import com.ruhuna.employee_management_api.viewModel.EmployeeViewModel;
@@ -14,13 +12,6 @@ import java.util.stream.Collectors;
 
 @Component
 public class Mapper {
-    private EmployeeRepository employeeRepository;
-    private SkillRepository skillRepository;
-
-    public Mapper(EmployeeRepository employeeRepository, SkillRepository skillRepository){
-        this.employeeRepository = employeeRepository;
-        this.skillRepository = skillRepository;
-    }
 
     public EmployeeViewModel convertToEmployeeViewModel(Employee employee){
         List<SkillViewModel> skills = employee.getSkills().stream()
@@ -56,40 +47,20 @@ public class Mapper {
         );
     }
 
-    public Employee convertToEmployee(EmployeeViewModel viewModel){
-        Employee employee;
-
-        if(viewModel.id() != null){
-            employee = employeeRepository.findById(viewModel.id()).get();
-        }else{
-            employee = new Employee();
-        }
-
+    public Employee updateEmployeeFromViewModel(Employee employee, EmployeeViewModel viewModel, Set<Skill> skills){
         employee.setName(viewModel.name());
         employee.setDob(viewModel.dob());
         employee.setEmail(viewModel.email());
 
-        Set<Skill> skills = viewModel.skills().stream()
-                .map(viewModel1 -> {
-                    Skill skill = skillRepository.findByDescription(viewModel1.description());
-                    skill.getEmployees().add(employee);
-                    return skill;
-                }).collect(Collectors.toSet());
-
+        // Link skills bidirectionally
+        skills.forEach(skill -> skill.getEmployees().add(employee));
         employee.setSkills(skills);
+
         return employee;
     }
 
-    public Skill convertToSkill(SkillViewModel viewModel){
-        Skill skill;
-
-        if(viewModel.id() != null){
-            skill = skillRepository.findById(viewModel.id()).get();
-            skill.setDescription(viewModel.description());
-        }else{
-            skill = new Skill(viewModel.description());
-        }
-
+    public Skill updateSkillFromViewModel(Skill skill, SkillViewModel viewModel){
+        skill.setDescription(viewModel.description());
         return skill;
     }
 }

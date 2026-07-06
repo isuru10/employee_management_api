@@ -4,6 +4,7 @@ import com.ruhuna.employee_management_api.Mapper;
 import com.ruhuna.employee_management_api.db.EmployeeRepository;
 import com.ruhuna.employee_management_api.db.SkillRepository;
 import com.ruhuna.employee_management_api.model.Employee;
+import com.ruhuna.employee_management_api.model.Skill;
 import com.ruhuna.employee_management_api.viewModel.EmployeeViewModel;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -12,6 +13,7 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.ValidationException;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @RestController
@@ -19,11 +21,13 @@ import java.util.stream.Collectors;
 @CrossOrigin
 public class EmployeeController {
     private EmployeeRepository employeeRepository;
+    private SkillRepository skillRepository;
     private Mapper mapper;
     private EntityManager em;
 
-    public EmployeeController(EmployeeRepository employeeRepository, Mapper mapper, EntityManager em){
+    public EmployeeController(EmployeeRepository employeeRepository, SkillRepository skillRepository, Mapper mapper, EntityManager em){
         this.employeeRepository = employeeRepository;
+        this.skillRepository = skillRepository;
         this.mapper = mapper;
         this.em = em;
     }
@@ -51,7 +55,26 @@ public class EmployeeController {
             throw new ValidationException("Employee");
         }
 
-        Employee employee = this.mapper.convertToEmployee(viewModel);
+        Employee employee;
+        if(viewModel.id() != null){
+            employee = employeeRepository.findById(viewModel.id()).orElse(null);
+            if(employee == null){
+                throw new EntityNotFoundException();
+            }
+        }else{
+            employee = new Employee();
+        }
+
+        Set<Skill> skills = viewModel.skills().stream()
+                .map(viewModel1 -> {
+                    Skill skill = skillRepository.findByDescription(viewModel1.description());
+                    if (skill == null) {
+                        throw new EntityNotFoundException();
+                    }
+                    return skill;
+                }).collect(Collectors.toSet());
+
+        this.mapper.updateEmployeeFromViewModel(employee, viewModel, skills);
         this.employeeRepository.save(employee);
 
         return this.mapper.convertToEmployeeViewModel(employee);
@@ -60,8 +83,5 @@ public class EmployeeController {
     @DeleteMapping("/{id}")
     public void delete(@PathVariable Long id){
         this.employeeRepository.deleteById(id);
-//        Employee e = em.find(Employee.class, id);
-//        System.out.println(e);
     }
-
 }

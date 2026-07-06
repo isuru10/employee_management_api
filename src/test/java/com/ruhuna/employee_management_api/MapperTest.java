@@ -1,7 +1,5 @@
 package com.ruhuna.employee_management_api;
 
-import com.ruhuna.employee_management_api.db.EmployeeRepository;
-import com.ruhuna.employee_management_api.db.SkillRepository;
 import com.ruhuna.employee_management_api.model.Employee;
 import com.ruhuna.employee_management_api.model.Skill;
 import com.ruhuna.employee_management_api.viewModel.EmployeeViewModel;
@@ -9,28 +7,20 @@ import com.ruhuna.employee_management_api.viewModel.SkillViewModel;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class MapperTest {
 
     private Mapper mapper;
 
-    @Mock
-    private EmployeeRepository employeeRepository;
-
-    @Mock
-    private SkillRepository skillRepository;
-
     @BeforeEach
     public void setUp() {
-        mapper = new Mapper(employeeRepository, skillRepository);
+        mapper = new Mapper();
     }
 
     @Test
@@ -72,7 +62,7 @@ public class MapperTest {
     }
 
     @Test
-    public void testConvertToEmployee_NewEmployee() {
+    public void testUpdateEmployeeFromViewModel_NewEmployee() {
         SkillViewModel skillViewModel = new SkillViewModel("Spring");
         EmployeeViewModel viewModel = new EmployeeViewModel(
                 null,
@@ -83,9 +73,9 @@ public class MapperTest {
         );
 
         Skill skill = new Skill("Spring");
-        when(skillRepository.findByDescription("Spring")).thenReturn(skill);
+        Employee employee = new Employee();
 
-        Employee employee = mapper.convertToEmployee(viewModel);
+        mapper.updateEmployeeFromViewModel(employee, viewModel, Set.of(skill));
 
         assertNull(employee.getId());
         assertEquals(viewModel.name(), employee.getName());
@@ -96,7 +86,7 @@ public class MapperTest {
     }
 
     @Test
-    public void testConvertToEmployee_ExistingEmployee() {
+    public void testUpdateEmployeeFromViewModel_ExistingEmployee() {
         SkillViewModel skillViewModel = new SkillViewModel("Spring");
         EmployeeViewModel viewModel = new EmployeeViewModel(
                 1L,
@@ -108,43 +98,37 @@ public class MapperTest {
 
         Employee existingEmployee = new Employee("Old Name", "old@example.com", new Date());
         existingEmployee.setId(1L);
-
-        when(employeeRepository.findById(1L)).thenReturn(Optional.of(existingEmployee));
-
         Skill skill = new Skill("Spring");
-        when(skillRepository.findByDescription("Spring")).thenReturn(skill);
 
-        Employee employee = mapper.convertToEmployee(viewModel);
+        mapper.updateEmployeeFromViewModel(existingEmployee, viewModel, Set.of(skill));
 
-        assertNotNull(employee.getId());
-        assertEquals(1L, (long) employee.getId());
-        assertEquals(viewModel.name(), employee.getName());
-        assertEquals(viewModel.email(), employee.getEmail());
-        assertEquals(1, employee.getSkills().size());
+        assertNotNull(existingEmployee.getId());
+        assertEquals(1L, (long) existingEmployee.getId());
+        assertEquals(viewModel.name(), existingEmployee.getName());
+        assertEquals(viewModel.email(), existingEmployee.getEmail());
+        assertEquals(1, existingEmployee.getSkills().size());
     }
 
     @Test
-    public void testConvertToSkill_NewSkill() {
+    public void testUpdateSkillFromViewModel_NewSkill() {
         SkillViewModel viewModel = new SkillViewModel("React");
+        Skill skill = new Skill();
 
-        Skill skill = mapper.convertToSkill(viewModel);
+        mapper.updateSkillFromViewModel(skill, viewModel);
 
         assertNull(skill.getId());
         assertEquals("React", skill.getDescription());
     }
 
     @Test
-    public void testConvertToSkill_ExistingSkill() {
+    public void testUpdateSkillFromViewModel_ExistingSkill() {
         SkillViewModel viewModel = new SkillViewModel(10L, "React", List.of());
-
         Skill existingSkill = new Skill("Old React");
         existingSkill.setId(10L);
 
-        when(skillRepository.findById(10L)).thenReturn(Optional.of(existingSkill));
+        mapper.updateSkillFromViewModel(existingSkill, viewModel);
 
-        Skill skill = mapper.convertToSkill(viewModel);
-
-        assertEquals(10L, (long) skill.getId());
-        assertEquals("React", skill.getDescription());
+        assertEquals(10L, (long) existingSkill.getId());
+        assertEquals("React", existingSkill.getDescription());
     }
 }

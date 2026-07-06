@@ -48,7 +48,17 @@ public class SkillController {
             throw new ValidationException("Skill");
         }
 
-        Skill skill = this.mapper.convertToSkill(viewModel);
+        Skill skill;
+        if(viewModel.id() != null){
+            skill = this.skillRepository.findById(viewModel.id()).orElse(null);
+            if(skill == null){
+                throw new EntityNotFoundException();
+            }
+        }else{
+            skill = new Skill();
+        }
+
+        this.mapper.updateSkillFromViewModel(skill, viewModel);
         this.skillRepository.save(skill);
 
         return this.mapper.convertToSkillViewModel(skill);

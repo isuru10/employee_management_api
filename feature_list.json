@@ -60,7 +60,7 @@
       "id": "F-05",
       "name": "Decouple Mapper from Repositories",
       "description": "Move database lookup queries out of the Mapper translation methods to make it a pure mapper.",
-      "status": "todo",
+      "status": "completed",
       "last_updated": "2026-07-06",
       "evidence": [
         "src/main/java/com/ruhuna/employee_management_api/Mapper.java"

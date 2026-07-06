@@ -77,14 +77,18 @@ public class SkillControllerTest {
         BindingResult bindingResult = mock(BindingResult.class);
 
         when(bindingResult.hasErrors()).thenReturn(false);
-        when(mapper.convertToSkill(viewModel)).thenReturn(skill);
-        when(mapper.convertToSkillViewModel(skill)).thenReturn(viewModel);
+        when(mapper.updateSkillFromViewModel(any(Skill.class), any(SkillViewModel.class))).thenAnswer(invocation -> {
+            Skill s = invocation.getArgument(0);
+            s.setDescription("Java");
+            return s;
+        });
+        when(mapper.convertToSkillViewModel(any(Skill.class))).thenReturn(viewModel);
 
         SkillViewModel result = skillController.save(viewModel, bindingResult);
 
         assertNotNull(result);
         assertEquals("Java", result.description());
-        verify(skillRepository, times(1)).save(skill);
+        verify(skillRepository, times(1)).save(any(Skill.class));
     }
 
     @Test
