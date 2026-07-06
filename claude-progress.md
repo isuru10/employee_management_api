@@ -5,8 +5,8 @@ This log tracks all agent sessions, features completed, and verification outcome
 ---
 
 ## Active Status
-- **Current Phase:** Java 21, Spring Boot 3.x, Jakarta & JUnit 5 Upgrade
-- **Active Feature:** F-02, F-03 & F-06 Modernization Step
+- **Current Phase:** View Model Modernization
+- **Active Feature:** Convert ViewModels to Java Records (F-04)
 - **Status:** Completed
 
 ---
@@ -58,3 +58,13 @@ This log tracks all agent sessions, features completed, and verification outcome
   - Migrated `MapperTest.java`, `EmployeeControllerTest.java`, and `SkillControllerTest.java` test cases to JUnit Jupiter (JUnit 5) assertions and annotations.
   - Verified compilation and passing of all 18 test cases.
 - **Status:** Completed F-02, F-03, and F-06. Spring Boot 3.3.1 modernization successfully verified.
+
+### Session 6: 2026-07-06T18:47Z
+- **Objective:** Execute F-04: Convert ViewModels to Java Records.
+- **Accomplishments:**
+  - Refactored `EmployeeViewModel.java` and `SkillViewModel.java` to Java records, simplifying fields and ensuring absolute immutability.
+  - Overloaded record constructors to maintain backward compatibility for tests and mapping utilities.
+  - Rewrote `Mapper.java` to instantiate record-based ViewModels and access record fields using modern dot notation (e.g., `viewModel.name()`).
+  - Updated the JUnit 5 test suite to compile and test against the new immutable structures.
+  - Confirmed all 18 test cases pass successfully.
+- **Status:** Completed F-04. ViewModels converted to Java records.

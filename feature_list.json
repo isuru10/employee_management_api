@@ -49,7 +49,7 @@
       "id": "F-04",
       "name": "Convert ViewModels to Java Records",
       "description": "Refactor EmployeeViewModel and SkillViewModel to use Java Records for immutability.",
-      "status": "todo",
+      "status": "completed",
       "last_updated": "2026-07-06",
       "evidence": [
         "src/main/java/com/ruhuna/employee_management_api/viewModel/EmployeeViewModel.java",

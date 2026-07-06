@@ -23,83 +23,71 @@ public class Mapper {
     }
 
     public EmployeeViewModel convertToEmployeeViewModel(Employee employee){
-
-        EmployeeViewModel viewModel = new EmployeeViewModel();
-
-        viewModel.setId(employee.getId());
-        viewModel.setName(employee.getName());
-        viewModel.setDob(employee.getDob());
-        viewModel.setEmail(employee.getEmail());
-
         List<SkillViewModel> skills = employee.getSkills().stream()
-                .map(skill ->{
-                    SkillViewModel viewModel1 = new SkillViewModel();
-                    viewModel1.setId(skill.getId());
-                    viewModel1.setDescription(skill.getDescription());
-                    return viewModel1;
-                })
+                .map(skill -> new SkillViewModel(skill.getId(), skill.getDescription(), List.of()))
                 .collect(Collectors.toList());
-        viewModel.setSkills(skills);
 
-        return viewModel;
+        return new EmployeeViewModel(
+                employee.getId(),
+                employee.getName(),
+                employee.getEmail(),
+                employee.getDob(),
+                skills
+        );
     }
 
     public SkillViewModel convertToSkillViewModel(Skill skill){
-        SkillViewModel viewModel = new SkillViewModel(skill.getDescription());
-        viewModel.setId(skill.getId());
-
         Set<Employee> employees = skill.getEmployees();
 
         List<EmployeeViewModel> employeeViewModels = employees.stream()
-                .map(employee -> {
-                    EmployeeViewModel viewModel2 = new EmployeeViewModel();
-                    viewModel2.setId(employee.getId());
-                    viewModel2.setName(employee.getName());
-                    viewModel2.setDob(employee.getDob());
-                    viewModel2.setEmail(employee.getEmail());
-                    return viewModel2;
-                })
+                .map(employee -> new EmployeeViewModel(
+                        employee.getId(),
+                        employee.getName(),
+                        employee.getEmail(),
+                        employee.getDob(),
+                        List.of()
+                ))
                 .collect(Collectors.toList());
 
-        viewModel.setEmployees(employeeViewModels);
-
-        return viewModel;
+        return new SkillViewModel(
+                skill.getId(),
+                skill.getDescription(),
+                employeeViewModels
+        );
     }
 
     public Employee convertToEmployee(EmployeeViewModel viewModel){
-
         Employee employee;
 
-        if(viewModel.getId() != null){
-            employee = employeeRepository.findById(viewModel.getId()).get();
+        if(viewModel.id() != null){
+            employee = employeeRepository.findById(viewModel.id()).get();
         }else{
             employee = new Employee();
         }
 
-        employee.setName(viewModel.getName());
-        employee.setDob(viewModel.getDob());
-        employee.setEmail(viewModel.getEmail());
+        employee.setName(viewModel.name());
+        employee.setDob(viewModel.dob());
+        employee.setEmail(viewModel.email());
 
-        Set<Skill> skills = viewModel.getSkills().stream()
+        Set<Skill> skills = viewModel.skills().stream()
                 .map(viewModel1 -> {
-                    Skill skill = skillRepository.findByDescription(viewModel1.getDescription());
+                    Skill skill = skillRepository.findByDescription(viewModel1.description());
                     skill.getEmployees().add(employee);
                     return skill;
                 }).collect(Collectors.toSet());
 
         employee.setSkills(skills);
         return employee;
-
     }
 
     public Skill convertToSkill(SkillViewModel viewModel){
         Skill skill;
 
-        if(viewModel.getId() != null){
-            skill = skillRepository.findById(viewModel.getId()).get();
-            skill.setDescription(viewModel.getDescription());
+        if(viewModel.id() != null){
+            skill = skillRepository.findById(viewModel.id()).get();
+            skill.setDescription(viewModel.description());
         }else{
-            skill = new Skill(viewModel.getDescription());
+            skill = new Skill(viewModel.description());
         }
 
         return skill;

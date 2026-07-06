@@ -39,7 +39,7 @@ public class SkillControllerTest {
     @Test
     public void testGetAll() {
         Skill skill = new Skill("Java");
-        SkillViewModel viewModel = new SkillViewModel("Java");
+        SkillViewModel viewModel = new SkillViewModel(10L, "Java", List.of());
 
         when(skillRepository.findAll()).thenReturn(Collections.singletonList(skill));
         when(mapper.convertToSkillViewModel(skill)).thenReturn(viewModel);
@@ -47,13 +47,13 @@ public class SkillControllerTest {
         List<SkillViewModel> result = skillController.getAll();
 
         assertEquals(1, result.size());
-        assertEquals("Java", result.get(0).getDescription());
+        assertEquals("Java", result.get(0).description());
     }
 
     @Test
     public void testGetById_Success() {
         Skill skill = new Skill("Java");
-        SkillViewModel viewModel = new SkillViewModel("Java");
+        SkillViewModel viewModel = new SkillViewModel(10L, "Java", List.of());
 
         when(skillRepository.findById(10L)).thenReturn(Optional.of(skill));
         when(mapper.convertToSkillViewModel(skill)).thenReturn(viewModel);
@@ -61,7 +61,7 @@ public class SkillControllerTest {
         SkillViewModel result = skillController.getById(10L);
 
         assertNotNull(result);
-        assertEquals("Java", result.getDescription());
+        assertEquals("Java", result.description());
     }
 
     @Test
@@ -72,7 +72,7 @@ public class SkillControllerTest {
 
     @Test
     public void testSave_Success() throws ValidationException {
-        SkillViewModel viewModel = new SkillViewModel("Java");
+        SkillViewModel viewModel = new SkillViewModel(null, "Java", List.of());
         Skill skill = new Skill("Java");
         BindingResult bindingResult = mock(BindingResult.class);
 
@@ -83,13 +83,13 @@ public class SkillControllerTest {
         SkillViewModel result = skillController.save(viewModel, bindingResult);
 
         assertNotNull(result);
-        assertEquals("Java", result.getDescription());
+        assertEquals("Java", result.description());
         verify(skillRepository, times(1)).save(skill);
     }
 
     @Test
     public void testSave_ValidationError() {
-        SkillViewModel viewModel = new SkillViewModel("Java");
+        SkillViewModel viewModel = new SkillViewModel(null, "Java", List.of());
         BindingResult bindingResult = mock(BindingResult.class);
 
         when(bindingResult.hasErrors()).thenReturn(true);

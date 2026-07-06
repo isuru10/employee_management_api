@@ -40,7 +40,7 @@ public class EmployeeControllerTest {
     @Test
     public void testGetAll() {
         Employee employee = new Employee("John Doe", "john@example.com", new Date());
-        EmployeeViewModel viewModel = new EmployeeViewModel("John Doe", new Date());
+        EmployeeViewModel viewModel = new EmployeeViewModel(1L, "John Doe", "john@example.com", new Date(), List.of());
 
         when(employeeRepository.findAll()).thenReturn(Collections.singletonList(employee));
         when(mapper.convertToEmployeeViewModel(employee)).thenReturn(viewModel);
@@ -48,13 +48,13 @@ public class EmployeeControllerTest {
         List<EmployeeViewModel> result = employeeController.getAll();
 
         assertEquals(1, result.size());
-        assertEquals("John Doe", result.get(0).getName());
+        assertEquals("John Doe", result.get(0).name());
     }
 
     @Test
     public void testGetById_Success() {
         Employee employee = new Employee("John Doe", "john@example.com", new Date());
-        EmployeeViewModel viewModel = new EmployeeViewModel("John Doe", new Date());
+        EmployeeViewModel viewModel = new EmployeeViewModel(1L, "John Doe", "john@example.com", new Date(), List.of());
 
         when(employeeRepository.findById(1L)).thenReturn(Optional.of(employee));
         when(mapper.convertToEmployeeViewModel(employee)).thenReturn(viewModel);
@@ -62,7 +62,7 @@ public class EmployeeControllerTest {
         EmployeeViewModel result = employeeController.getById(1L);
 
         assertNotNull(result);
-        assertEquals("John Doe", result.getName());
+        assertEquals("John Doe", result.name());
     }
 
     @Test
@@ -73,7 +73,7 @@ public class EmployeeControllerTest {
 
     @Test
     public void testSave_Success() throws ValidationException {
-        EmployeeViewModel viewModel = new EmployeeViewModel("Jane Doe", new Date());
+        EmployeeViewModel viewModel = new EmployeeViewModel(null, "Jane Doe", "jane@example.com", new Date(), List.of());
         Employee employee = new Employee("Jane Doe", "jane@example.com", new Date());
         BindingResult bindingResult = mock(BindingResult.class);
 
@@ -84,13 +84,13 @@ public class EmployeeControllerTest {
         EmployeeViewModel result = employeeController.save(viewModel, bindingResult);
 
         assertNotNull(result);
-        assertEquals("Jane Doe", result.getName());
+        assertEquals("Jane Doe", result.name());
         verify(employeeRepository, times(1)).save(employee);
     }
 
     @Test
     public void testSave_ValidationError() {
-        EmployeeViewModel viewModel = new EmployeeViewModel("Jane Doe", new Date());
+        EmployeeViewModel viewModel = new EmployeeViewModel(null, "Jane Doe", "jane@example.com", new Date(), List.of());
         BindingResult bindingResult = mock(BindingResult.class);
 
         when(bindingResult.hasErrors()).thenReturn(true);

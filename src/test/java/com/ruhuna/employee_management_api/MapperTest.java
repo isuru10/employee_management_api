@@ -44,13 +44,13 @@ public class MapperTest {
 
         EmployeeViewModel viewModel = mapper.convertToEmployeeViewModel(employee);
 
-        assertEquals(employee.getId(), viewModel.getId());
-        assertEquals(employee.getName(), viewModel.getName());
-        assertEquals(employee.getEmail(), viewModel.getEmail());
-        assertEquals(employee.getDob(), viewModel.getDob());
-        assertEquals(1, viewModel.getSkills().size());
-        assertEquals(skill.getId(), viewModel.getSkills().get(0).getId());
-        assertEquals(skill.getDescription(), viewModel.getSkills().get(0).getDescription());
+        assertEquals(employee.getId(), viewModel.id());
+        assertEquals(employee.getName(), viewModel.name());
+        assertEquals(employee.getEmail(), viewModel.email());
+        assertEquals(employee.getDob(), viewModel.dob());
+        assertEquals(1, viewModel.skills().size());
+        assertEquals(skill.getId(), viewModel.skills().get(0).id());
+        assertEquals(skill.getDescription(), viewModel.skills().get(0).description());
     }
 
     @Test
@@ -64,22 +64,23 @@ public class MapperTest {
 
         SkillViewModel viewModel = mapper.convertToSkillViewModel(skill);
 
-        assertEquals(skill.getId(), viewModel.getId());
-        assertEquals(skill.getDescription(), viewModel.getDescription());
-        assertEquals(1, viewModel.getEmployees().size());
-        assertEquals(employee.getId(), viewModel.getEmployees().get(0).getId());
-        assertEquals(employee.getName(), viewModel.getEmployees().get(0).getName());
+        assertEquals(skill.getId(), viewModel.id());
+        assertEquals(skill.getDescription(), viewModel.description());
+        assertEquals(1, viewModel.employees().size());
+        assertEquals(employee.getId(), viewModel.employees().get(0).id());
+        assertEquals(employee.getName(), viewModel.employees().get(0).name());
     }
 
     @Test
     public void testConvertToEmployee_NewEmployee() {
-        EmployeeViewModel viewModel = new EmployeeViewModel();
-        viewModel.setName("Jane Doe");
-        viewModel.setEmail("jane@example.com");
-        viewModel.setDob(new Date());
-
         SkillViewModel skillViewModel = new SkillViewModel("Spring");
-        viewModel.setSkills(Collections.singletonList(skillViewModel));
+        EmployeeViewModel viewModel = new EmployeeViewModel(
+                null,
+                "Jane Doe",
+                "jane@example.com",
+                new Date(),
+                Collections.singletonList(skillViewModel)
+        );
 
         Skill skill = new Skill("Spring");
         when(skillRepository.findByDescription("Spring")).thenReturn(skill);
@@ -87,28 +88,28 @@ public class MapperTest {
         Employee employee = mapper.convertToEmployee(viewModel);
 
         assertNull(employee.getId());
-        assertEquals(viewModel.getName(), employee.getName());
-        assertEquals(viewModel.getEmail(), employee.getEmail());
-        assertEquals(viewModel.getDob(), employee.getDob());
+        assertEquals(viewModel.name(), employee.getName());
+        assertEquals(viewModel.email(), employee.getEmail());
+        assertEquals(viewModel.dob(), employee.getDob());
         assertEquals(1, employee.getSkills().size());
         assertTrue(employee.getSkills().contains(skill));
     }
 
     @Test
     public void testConvertToEmployee_ExistingEmployee() {
-        EmployeeViewModel viewModel = new EmployeeViewModel();
-        viewModel.setId(1L);
-        viewModel.setName("Jane Doe");
-        viewModel.setEmail("jane@example.com");
-        viewModel.setDob(new Date());
+        SkillViewModel skillViewModel = new SkillViewModel("Spring");
+        EmployeeViewModel viewModel = new EmployeeViewModel(
+                1L,
+                "Jane Doe",
+                "jane@example.com",
+                new Date(),
+                Collections.singletonList(skillViewModel)
+        );
 
         Employee existingEmployee = new Employee("Old Name", "old@example.com", new Date());
         existingEmployee.setId(1L);
 
         when(employeeRepository.findById(1L)).thenReturn(Optional.of(existingEmployee));
-
-        SkillViewModel skillViewModel = new SkillViewModel("Spring");
-        viewModel.setSkills(Collections.singletonList(skillViewModel));
 
         Skill skill = new Skill("Spring");
         when(skillRepository.findByDescription("Spring")).thenReturn(skill);
@@ -117,8 +118,8 @@ public class MapperTest {
 
         assertNotNull(employee.getId());
         assertEquals(1L, (long) employee.getId());
-        assertEquals(viewModel.getName(), employee.getName());
-        assertEquals(viewModel.getEmail(), employee.getEmail());
+        assertEquals(viewModel.name(), employee.getName());
+        assertEquals(viewModel.email(), employee.getEmail());
         assertEquals(1, employee.getSkills().size());
     }
 
@@ -134,8 +135,7 @@ public class MapperTest {
 
     @Test
     public void testConvertToSkill_ExistingSkill() {
-        SkillViewModel viewModel = new SkillViewModel("React");
-        viewModel.setId(10L);
+        SkillViewModel viewModel = new SkillViewModel(10L, "React", List.of());
 
         Skill existingSkill = new Skill("Old React");
         existingSkill.setId(10L);

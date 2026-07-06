@@ -1,47 +1,24 @@
 package com.ruhuna.employee_management_api.viewModel;
 
 import jakarta.validation.constraints.NotNull;
-import java.util.ArrayList;
 import java.util.List;
 
-public class SkillViewModel {
-    private Long id;
-
-    @NotNull
-    private String description;
-
-    private List<EmployeeViewModel> employees;
-
-    public SkillViewModel(){
-        this.employees = new ArrayList<>();
+public record SkillViewModel(
+    Long id,
+    @NotNull String description,
+    List<EmployeeViewModel> employees
+) {
+    public SkillViewModel {
+        if (employees == null) {
+            employees = List.of();
+        }
     }
 
-    public SkillViewModel(String description){
-        this();
-        this.description = description;
+    public SkillViewModel() {
+        this(null, null, List.of());
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public List<EmployeeViewModel> getEmployees() {
-        return employees;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public void setEmployees(List<EmployeeViewModel> employees) {
-        this.employees = employees;
+    public SkillViewModel(String description) {
+        this(null, description, List.of());
     }
 }
