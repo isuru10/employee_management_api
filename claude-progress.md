@@ -5,9 +5,9 @@ This log tracks all agent sessions, features completed, and verification outcome
 ---
 
 ## Active Status
-- **Current Phase:** Harness Setup & Discovery
-- **Active Feature:** Harness File Standardization (F-00)
-- **Status:** In Progress
+- **Current Phase:** Java & Spring Boot Modernization
+- **Active Feature:** Upgrade project to Java 21 (F-01)
+- **Status:** Completed
 
 ---
 
@@ -29,3 +29,11 @@ This log tracks all agent sessions, features completed, and verification outcome
   - Reformatted and standardized `feature_list.json` to include IDs, descriptions, statuses, and evidence tags.
   - Renamed `progress.md` to `claude-progress.md` and structured it chronologically.
 - **Status:** Harness standardized and fully verified via `init.sh`.
+
+### Session 3: 2026-07-06T18:26Z
+- **Objective:** Execute F-01: Upgrade project to Java 21.
+- **Accomplishments:**
+  - Updated `<java.version>` property to `21` in `pom.xml`.
+  - Cleaned and compiled the project successfully targeting Java 21.
+  - Ran automated checks and verified system health.
+- **Status:** Completed F-01. Java 21 upgrade verified.

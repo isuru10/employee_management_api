@@ -6,7 +6,7 @@
       "id": "F-01",
       "name": "Upgrade project to Java 21",
       "description": "Upgrade maven properties to target Java 21.",
-      "status": "todo",
+      "status": "completed",
       "last_updated": "2026-07-06",
       "evidence": [
         "pom.xml"
