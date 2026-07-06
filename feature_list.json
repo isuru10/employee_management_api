@@ -1,0 +1,58 @@
+{
+  "features": [
+    {
+      "id": "java-21-upgrade",
+      "name": "Upgrade project to Java 21",
+      "status": "todo",
+      "description": "Upgrade maven properties to target Java 21."
+    },
+    {
+      "id": "springboot-3-upgrade",
+      "name": "Upgrade Spring Boot to 3.x",
+      "status": "todo",
+      "description": "Update spring-boot-starter-parent version to latest 3.x."
+    },
+    {
+      "id": "jakarta-migration",
+      "name": "Migrate javax.* to jakarta.*",
+      "status": "todo",
+      "description": "Change all javax.persistence and javax.validation imports to jakarta namespace."
+    },
+    {
+      "id": "records-dtos",
+      "name": "Convert ViewModels to Java Records",
+      "status": "todo",
+      "description": "Refactor EmployeeViewModel and SkillViewModel to use Java Records."
+    },
+    {
+      "id": "decouple-mapper",
+      "name": "Decouple Mapper from Repositories",
+      "status": "todo",
+      "description": "Move database lookup queries out of the Mapper translation methods."
+    },
+    {
+      "id": "junit-5-migration",
+      "name": "Migrate tests to JUnit 5",
+      "status": "todo",
+      "description": "Convert JUnit 4 tests to JUnit Jupiter tests."
+    },
+    {
+      "id": "global-error-handling",
+      "name": "Implement Global Exception Handling",
+      "status": "todo",
+      "description": "Create RestControllerAdvice to format validation and search errors using RFC 7807 Problem Details."
+    },
+    {
+      "id": "quality-lenses-setup",
+      "name": "Configure Quality Lenses (Mutation Testing & CRAP)",
+      "status": "todo",
+      "description": "Evaluate test suite strength with mutation testing (e.g., PiTest) and check complexity of core functions."
+    },
+    {
+      "id": "extract-knowledge-docs",
+      "name": "Extract Domain Knowledge",
+      "status": "todo",
+      "description": "Identify implicit business rules and extract them into an authoritative knowledge doc to avoid duplicated knowledge."
+    }
+  ]
+}
