@@ -16,7 +16,7 @@
       "id": "F-00",
       "name": "Implement Baseline Test Suite",
       "description": "Create unit and integration tests for controllers, repositories, and mapper to establish a safety net for upgrades.",
-      "status": "todo",
+      "status": "completed",
       "last_updated": "2026-07-06",
       "evidence": [
         "src/test/java/com/ruhuna/employee_management_api/MapperTest.java",

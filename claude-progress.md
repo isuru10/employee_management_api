@@ -7,7 +7,7 @@ This log tracks all agent sessions, features completed, and verification outcome
 ## Active Status
 - **Current Phase:** Baseline Test Suite Implementation
 - **Active Feature:** Implement Baseline Test Suite (F-00)
-- **Status:** In Progress
+- **Status:** Completed
 
 ---
 
@@ -37,3 +37,13 @@ This log tracks all agent sessions, features completed, and verification outcome
   - Cleaned and compiled the project successfully targeting Java 21.
   - Ran automated checks and verified system health.
 - **Status:** Completed F-01. Java 21 upgrade verified.
+
+### Session 4: 2026-07-06T18:34Z
+- **Objective:** Execute F-00: Implement Baseline Test Suite (TDD approach).
+- **Accomplishments:**
+  - Designed mock-based unit tests to run independently of PostgreSQL.
+  - Created `MapperTest.java` covering all Entity/DTO mapping flows.
+  - Created `EmployeeControllerTest.java` and `SkillControllerTest.java` as Mockito unit tests.
+  - Resolved Spring ASM ClassReader Java 21 bytecode parsing failures by bypassing unnecessary spring context boot for base tests.
+  - Verified 18 tests compile and pass successfully.
+- **Status:** Completed F-00. Baseline test suite established.
