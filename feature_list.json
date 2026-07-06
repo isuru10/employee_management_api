@@ -13,6 +13,18 @@
       ]
     },
     {
+      "id": "F-00",
+      "name": "Implement Baseline Test Suite",
+      "description": "Create unit and integration tests for controllers, repositories, and mapper to establish a safety net for upgrades.",
+      "status": "todo",
+      "last_updated": "2026-07-06",
+      "evidence": [
+        "src/test/java/com/ruhuna/employee_management_api/MapperTest.java",
+        "src/test/java/com/ruhuna/employee_management_api/api/EmployeeControllerTest.java",
+        "src/test/java/com/ruhuna/employee_management_api/api/SkillControllerTest.java"
+      ]
+    },
+    {
       "id": "F-02",
       "name": "Upgrade Spring Boot to 3.x",
       "description": "Update spring-boot-starter-parent version to latest 3.x and add starter validation.",
