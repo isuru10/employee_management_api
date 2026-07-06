@@ -1,31 +1,18 @@
 # CLAUDE.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+## Build & Test Setup
+- **Java Version:** Java 21 (Modernization Target)
+- **Build Tool:** Maven Wrapper (`./mvnw`)
+- **Compilation:** `./mvnw clean compile`
+- **Execution & Verification:** `./mvnw test`
+- **Run Locally:** `./mvnw spring-boot:run`
+- **Initialize & Health Check:** `bash init.sh`
 
-Refer to the main [AGENTS.md](file:///Users/isuru/Documents/Workspace/employee_management_api/AGENTS.md) operating manual for detailed guidelines and architecture notes.
-
-## Commands
-
-```sh
-# Clean compile
-./mvnw clean compile
-
-# Run tests
-./mvnw test
-
-# Package app
-./mvnw package -DskipTests
-
-# Run app
-./mvnw spring-boot:run
-```
-
-## Agentic Workflow Checklist
-
-When working on features or modernizing this repo, follow this loop:
-1. **Start from a use case** — not a framework. Keep the domain pure.
-2. **Have AI draft tests (e.g., Gherkin/BDD)** — but wait for human review on numbers and edge cases.
-3. **Check Alignment** — Ask the human to "show the plan before acting" to avoid Silent Misalignment.
-4. **Feedback Loop** — Iterate autonomously until tests are green. The test runner is your signal.
-5. **Quality Pass** — Check Mutation (tests strong?), CRAP (functions clean?), Property (all paths covered?), and DRY.
-6. **Extract Knowledge** — Save any understood implicit rules into a knowledge document since AI "Cannot Learn".
+## Code Style & Formatting
+- **Naming Standards:** Standard Java camelCase for methods/variables, PascalCase for classes/interfaces, and UPPER_SNAKE_CASE for constants.
+- **Jakarta Namespace:** Use `jakarta.persistence.*` and `jakarta.validation.*` instead of `javax.*` (post Spring Boot 3.x upgrade).
+- **Immutability:** DTOs in `viewModel/` must be Java Records.
+- **Clean Architecture:** Keep `Mapper.java` pure. Do not inject repositories or do database calls in the mapper.
+- **Validation:** Use `@Valid` on controller requests and handle validation exceptions globally using a `@RestControllerAdvice` class returning RFC 7807 `ProblemDetail` payloads.
+- **Tests:** Use JUnit 5 (JUnit Jupiter) annotations only. No JUnit 4 annotations.
+- **No Mocking / Placeholders:** Write fully functional code without placeholder comments.

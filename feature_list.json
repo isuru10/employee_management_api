@@ -1,58 +1,100 @@
 {
+  "project": "Employee Management API Modernization",
+  "version": "1.0.0",
   "features": [
     {
-      "id": "java-21-upgrade",
+      "id": "F-01",
       "name": "Upgrade project to Java 21",
+      "description": "Upgrade maven properties to target Java 21.",
       "status": "todo",
-      "description": "Upgrade maven properties to target Java 21."
+      "last_updated": "2026-07-06",
+      "evidence": [
+        "pom.xml"
+      ]
     },
     {
-      "id": "springboot-3-upgrade",
+      "id": "F-02",
       "name": "Upgrade Spring Boot to 3.x",
+      "description": "Update spring-boot-starter-parent version to latest 3.x and add starter validation.",
       "status": "todo",
-      "description": "Update spring-boot-starter-parent version to latest 3.x."
+      "last_updated": "2026-07-06",
+      "evidence": [
+        "pom.xml"
+      ]
     },
     {
-      "id": "jakarta-migration",
+      "id": "F-03",
       "name": "Migrate javax.* to jakarta.*",
+      "description": "Change all javax.persistence and javax.validation imports to jakarta namespace.",
       "status": "todo",
-      "description": "Change all javax.persistence and javax.validation imports to jakarta namespace."
+      "last_updated": "2026-07-06",
+      "evidence": [
+        "src/main/java/com/ruhuna/employee_management_api/model/Employee.java",
+        "src/main/java/com/ruhuna/employee_management_api/model/Skill.java"
+      ]
     },
     {
-      "id": "records-dtos",
+      "id": "F-04",
       "name": "Convert ViewModels to Java Records",
+      "description": "Refactor EmployeeViewModel and SkillViewModel to use Java Records for immutability.",
       "status": "todo",
-      "description": "Refactor EmployeeViewModel and SkillViewModel to use Java Records."
+      "last_updated": "2026-07-06",
+      "evidence": [
+        "src/main/java/com/ruhuna/employee_management_api/viewModel/EmployeeViewModel.java",
+        "src/main/java/com/ruhuna/employee_management_api/viewModel/SkillViewModel.java"
+      ]
     },
     {
-      "id": "decouple-mapper",
+      "id": "F-05",
       "name": "Decouple Mapper from Repositories",
+      "description": "Move database lookup queries out of the Mapper translation methods to make it a pure mapper.",
       "status": "todo",
-      "description": "Move database lookup queries out of the Mapper translation methods."
+      "last_updated": "2026-07-06",
+      "evidence": [
+        "src/main/java/com/ruhuna/employee_management_api/Mapper.java"
+      ]
     },
     {
-      "id": "junit-5-migration",
+      "id": "F-06",
       "name": "Migrate tests to JUnit 5",
+      "description": "Convert JUnit 4 tests to JUnit Jupiter tests.",
       "status": "todo",
-      "description": "Convert JUnit 4 tests to JUnit Jupiter tests."
+      "last_updated": "2026-07-06",
+      "evidence": [
+        "src/test/java/com/ruhuna/employee_management_api/EmployeeManagementApiApplicationTests.java"
+      ]
     },
     {
-      "id": "global-error-handling",
+      "id": "F-07",
       "name": "Implement Global Exception Handling",
+      "description": "Create RestControllerAdvice to format validation and search errors using RFC 7807 Problem Details.",
       "status": "todo",
-      "description": "Create RestControllerAdvice to format validation and search errors using RFC 7807 Problem Details."
+      "last_updated": "2026-07-06",
+      "evidence": [
+        "src/main/java/com/ruhuna/employee_management_api/api/GlobalExceptionHandler.java",
+        "src/main/java/com/ruhuna/employee_management_api/api/EmployeeController.java",
+        "src/main/java/com/ruhuna/employee_management_api/api/SkillController.java"
+      ]
     },
     {
-      "id": "quality-lenses-setup",
+      "id": "F-08",
       "name": "Configure Quality Lenses (Mutation Testing & CRAP)",
+      "description": "Evaluate test suite strength with mutation testing and check complexity of core functions.",
       "status": "todo",
-      "description": "Evaluate test suite strength with mutation testing (e.g., PiTest) and check complexity of core functions."
+      "last_updated": "2026-07-06",
+      "evidence": [
+        "pom.xml"
+      ]
     },
     {
-      "id": "extract-knowledge-docs",
+      "id": "F-09",
       "name": "Extract Domain Knowledge",
+      "description": "Identify implicit business rules and extract them into an authoritative knowledge doc to avoid duplicated knowledge.",
       "status": "todo",
-      "description": "Identify implicit business rules and extract them into an authoritative knowledge doc to avoid duplicated knowledge."
+      "last_updated": "2026-07-06",
+      "evidence": [
+        "knowledge/"
+      ]
     }
   ]
 }
