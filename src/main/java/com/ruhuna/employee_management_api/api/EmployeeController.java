@@ -6,7 +6,7 @@ import com.ruhuna.employee_management_api.db.SkillRepository;
 import com.ruhuna.employee_management_api.model.Employee;
 import com.ruhuna.employee_management_api.model.Skill;
 import com.ruhuna.employee_management_api.viewModel.EmployeeViewModel;
-import org.springframework.validation.BindingResult;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
 import jakarta.persistence.EntityManager;
@@ -50,10 +50,7 @@ public class EmployeeController {
     }
 
     @PostMapping
-    public EmployeeViewModel save(@RequestBody EmployeeViewModel viewModel, BindingResult bindingResult) throws ValidationException {
-        if(bindingResult.hasErrors()){
-            throw new ValidationException("Employee");
-        }
+    public EmployeeViewModel save(@Valid @RequestBody EmployeeViewModel viewModel) {
 
         Employee employee;
         if(viewModel.id() != null){

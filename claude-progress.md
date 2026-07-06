@@ -5,8 +5,8 @@ This log tracks all agent sessions, features completed, and verification outcome
 ---
 
 ## Active Status
-- **Current Phase:** Pure Mapping Layer Decoupling
-- **Active Feature:** Decouple Mapper from Repositories (F-05)
+- **Current Phase:** Global Exception Handling & Validation
+- **Active Feature:** Implement Global Exception Handling (F-07)
 - **Status:** Completed
 
 ---
@@ -78,3 +78,13 @@ This log tracks all agent sessions, features completed, and verification outcome
   - Updated unit test setups and mappings to align with pure mapping method signatures.
   - Verified compilation and confirmed all 18 test cases continue to pass successfully.
 - **Status:** Completed F-05. Mapper decoupled from database repositories.
+
+### Session 8: 2026-07-06T19:05Z
+- **Objective:** Execute F-07: Implement Global Exception Handling.
+- **Accomplishments:**
+  - Created `GlobalExceptionHandler.java` acting as `@RestControllerAdvice` to translate exceptions into RFC 9457 `ProblemDetail` structures.
+  - Refactored controller post save endpoints to utilize automatic Spring `@Valid` request body checks.
+  - Deleted obsolete manual `BindingResult` check blocks and arguments.
+  - Created `GlobalExceptionHandlerTest.java` verifying mapped statuses (404 and 400), details, types, and properties for HTTP API problem formats.
+  - Confirmed compilation and execution of all 19 test cases.
+- **Status:** Completed F-07. Global exception handling implemented and verified.

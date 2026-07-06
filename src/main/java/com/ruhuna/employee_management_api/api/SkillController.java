@@ -4,7 +4,7 @@ import com.ruhuna.employee_management_api.Mapper;
 import com.ruhuna.employee_management_api.db.SkillRepository;
 import com.ruhuna.employee_management_api.model.Skill;
 import com.ruhuna.employee_management_api.viewModel.SkillViewModel;
-import org.springframework.validation.BindingResult;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
 import jakarta.persistence.EntityNotFoundException;
@@ -43,10 +43,7 @@ public class SkillController {
     }
 
     @PostMapping
-    public SkillViewModel save(@RequestBody SkillViewModel viewModel, BindingResult bindingResult) throws ValidationException {
-        if(bindingResult.hasErrors()){
-            throw new ValidationException("Skill");
-        }
+    public SkillViewModel save(@Valid @RequestBody SkillViewModel viewModel) {
 
         Skill skill;
         if(viewModel.id() != null){

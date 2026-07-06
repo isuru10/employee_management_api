@@ -10,10 +10,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.validation.BindingResult;
 
 import jakarta.persistence.EntityNotFoundException;
-import jakarta.validation.ValidationException;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -76,12 +74,10 @@ public class EmployeeControllerTest {
     }
 
     @Test
-    public void testSave_Success() throws ValidationException {
+    public void testSave_Success() {
         EmployeeViewModel viewModel = new EmployeeViewModel(null, "Jane Doe", "jane@example.com", new Date(), List.of());
         Employee employee = new Employee("Jane Doe", "jane@example.com", new Date());
-        BindingResult bindingResult = mock(BindingResult.class);
 
-        when(bindingResult.hasErrors()).thenReturn(false);
         when(mapper.updateEmployeeFromViewModel(any(Employee.class), any(EmployeeViewModel.class), anySet())).thenAnswer(invocation -> {
             Employee emp = invocation.getArgument(0);
             emp.setName("Jane Doe");
@@ -90,21 +86,11 @@ public class EmployeeControllerTest {
         });
         when(mapper.convertToEmployeeViewModel(any(Employee.class))).thenReturn(viewModel);
 
-        EmployeeViewModel result = employeeController.save(viewModel, bindingResult);
+        EmployeeViewModel result = employeeController.save(viewModel);
 
         assertNotNull(result);
         assertEquals("Jane Doe", result.name());
         verify(employeeRepository, times(1)).save(any(Employee.class));
-    }
-
-    @Test
-    public void testSave_ValidationError() {
-        EmployeeViewModel viewModel = new EmployeeViewModel(null, "Jane Doe", "jane@example.com", new Date(), List.of());
-        BindingResult bindingResult = mock(BindingResult.class);
-
-        when(bindingResult.hasErrors()).thenReturn(true);
-
-        assertThrows(ValidationException.class, () -> employeeController.save(viewModel, bindingResult));
     }
 
     @Test

@@ -81,8 +81,8 @@
     {
       "id": "F-07",
       "name": "Implement Global Exception Handling",
-      "description": "Create RestControllerAdvice to format validation and search errors using RFC 7807 Problem Details.",
-      "status": "todo",
+      "description": "Create RestControllerAdvice to format validation and search errors using RFC 9457 Problem Details.",
+      "status": "completed",
       "last_updated": "2026-07-06",
       "evidence": [
         "src/main/java/com/ruhuna/employee_management_api/api/GlobalExceptionHandler.java",

@@ -9,10 +9,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.validation.BindingResult;
 
 import jakarta.persistence.EntityNotFoundException;
-import jakarta.validation.ValidationException;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -71,12 +69,10 @@ public class SkillControllerTest {
     }
 
     @Test
-    public void testSave_Success() throws ValidationException {
+    public void testSave_Success() {
         SkillViewModel viewModel = new SkillViewModel(null, "Java", List.of());
         Skill skill = new Skill("Java");
-        BindingResult bindingResult = mock(BindingResult.class);
 
-        when(bindingResult.hasErrors()).thenReturn(false);
         when(mapper.updateSkillFromViewModel(any(Skill.class), any(SkillViewModel.class))).thenAnswer(invocation -> {
             Skill s = invocation.getArgument(0);
             s.setDescription("Java");
@@ -84,21 +80,11 @@ public class SkillControllerTest {
         });
         when(mapper.convertToSkillViewModel(any(Skill.class))).thenReturn(viewModel);
 
-        SkillViewModel result = skillController.save(viewModel, bindingResult);
+        SkillViewModel result = skillController.save(viewModel);
 
         assertNotNull(result);
         assertEquals("Java", result.description());
         verify(skillRepository, times(1)).save(any(Skill.class));
-    }
-
-    @Test
-    public void testSave_ValidationError() {
-        SkillViewModel viewModel = new SkillViewModel(null, "Java", List.of());
-        BindingResult bindingResult = mock(BindingResult.class);
-
-        when(bindingResult.hasErrors()).thenReturn(true);
-
-        assertThrows(ValidationException.class, () -> skillController.save(viewModel, bindingResult));
     }
 
     @Test
