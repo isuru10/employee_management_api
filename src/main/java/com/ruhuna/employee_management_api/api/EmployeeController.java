@@ -8,9 +8,9 @@ import com.ruhuna.employee_management_api.viewModel.EmployeeViewModel;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityNotFoundException;
-import javax.xml.bind.ValidationException;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityNotFoundException;
+import jakarta.validation.ValidationException;
 import java.util.List;
 import java.util.stream.Collectors;
 

@@ -4,22 +4,24 @@ import com.ruhuna.employee_management_api.Mapper;
 import com.ruhuna.employee_management_api.db.EmployeeRepository;
 import com.ruhuna.employee_management_api.model.Employee;
 import com.ruhuna.employee_management_api.viewModel.EmployeeViewModel;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.validation.BindingResult;
 
-import javax.persistence.EntityNotFoundException;
-import javax.xml.bind.ValidationException;
+import jakarta.persistence.EntityNotFoundException;
+import jakarta.validation.ValidationException;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
+@ExtendWith(MockitoExtension.class)
 public class EmployeeControllerTest {
 
     private EmployeeController employeeController;
@@ -30,9 +32,8 @@ public class EmployeeControllerTest {
     @Mock
     private Mapper mapper;
 
-    @Before
+    @BeforeEach
     public void setUp() {
-        MockitoAnnotations.initMocks(this);
         employeeController = new EmployeeController(employeeRepository, mapper, null);
     }
 
@@ -64,10 +65,10 @@ public class EmployeeControllerTest {
         assertEquals("John Doe", result.getName());
     }
 
-    @Test(expected = EntityNotFoundException.class)
+    @Test
     public void testGetById_NotFound() {
         when(employeeRepository.findById(1L)).thenReturn(Optional.empty());
-        employeeController.getById(1L);
+        assertThrows(EntityNotFoundException.class, () -> employeeController.getById(1L));
     }
 
     @Test
@@ -87,14 +88,14 @@ public class EmployeeControllerTest {
         verify(employeeRepository, times(1)).save(employee);
     }
 
-    @Test(expected = ValidationException.class)
-    public void testSave_ValidationError() throws ValidationException {
+    @Test
+    public void testSave_ValidationError() {
         EmployeeViewModel viewModel = new EmployeeViewModel("Jane Doe", new Date());
         BindingResult bindingResult = mock(BindingResult.class);
 
         when(bindingResult.hasErrors()).thenReturn(true);
 
-        employeeController.save(viewModel, bindingResult);
+        assertThrows(ValidationException.class, () -> employeeController.save(viewModel, bindingResult));
     }
 
     @Test

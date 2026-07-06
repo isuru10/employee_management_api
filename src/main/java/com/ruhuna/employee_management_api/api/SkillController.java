@@ -7,8 +7,8 @@ import com.ruhuna.employee_management_api.viewModel.SkillViewModel;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import javax.persistence.EntityNotFoundException;
-import javax.xml.bind.ValidationException;
+import jakarta.persistence.EntityNotFoundException;
+import jakarta.validation.ValidationException;
 import java.util.List;
 import java.util.stream.Collectors;
 

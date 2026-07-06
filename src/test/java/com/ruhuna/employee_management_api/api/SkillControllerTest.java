@@ -4,21 +4,23 @@ import com.ruhuna.employee_management_api.Mapper;
 import com.ruhuna.employee_management_api.db.SkillRepository;
 import com.ruhuna.employee_management_api.model.Skill;
 import com.ruhuna.employee_management_api.viewModel.SkillViewModel;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.validation.BindingResult;
 
-import javax.persistence.EntityNotFoundException;
-import javax.xml.bind.ValidationException;
+import jakarta.persistence.EntityNotFoundException;
+import jakarta.validation.ValidationException;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
+@ExtendWith(MockitoExtension.class)
 public class SkillControllerTest {
 
     private SkillController skillController;
@@ -29,9 +31,8 @@ public class SkillControllerTest {
     @Mock
     private Mapper mapper;
 
-    @Before
+    @BeforeEach
     public void setUp() {
-        MockitoAnnotations.initMocks(this);
         skillController = new SkillController(skillRepository, mapper);
     }
 
@@ -63,10 +64,10 @@ public class SkillControllerTest {
         assertEquals("Java", result.getDescription());
     }
 
-    @Test(expected = EntityNotFoundException.class)
+    @Test
     public void testGetById_NotFound() {
         when(skillRepository.findById(10L)).thenReturn(Optional.empty());
-        skillController.getById(10L);
+        assertThrows(EntityNotFoundException.class, () -> skillController.getById(10L));
     }
 
     @Test
@@ -86,14 +87,14 @@ public class SkillControllerTest {
         verify(skillRepository, times(1)).save(skill);
     }
 
-    @Test(expected = ValidationException.class)
-    public void testSave_ValidationError() throws ValidationException {
+    @Test
+    public void testSave_ValidationError() {
         SkillViewModel viewModel = new SkillViewModel("Java");
         BindingResult bindingResult = mock(BindingResult.class);
 
         when(bindingResult.hasErrors()).thenReturn(true);
 
-        skillController.save(viewModel, bindingResult);
+        assertThrows(ValidationException.class, () -> skillController.save(viewModel, bindingResult));
     }
 
     @Test

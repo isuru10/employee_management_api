@@ -6,16 +6,18 @@ import com.ruhuna.employee_management_api.model.Employee;
 import com.ruhuna.employee_management_api.model.Skill;
 import com.ruhuna.employee_management_api.viewModel.EmployeeViewModel;
 import com.ruhuna.employee_management_api.viewModel.SkillViewModel;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.*;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
+@ExtendWith(MockitoExtension.class)
 public class MapperTest {
 
     private Mapper mapper;
@@ -26,9 +28,8 @@ public class MapperTest {
     @Mock
     private SkillRepository skillRepository;
 
-    @Before
+    @BeforeEach
     public void setUp() {
-        MockitoAnnotations.initMocks(this);
         mapper = new Mapper(employeeRepository, skillRepository);
     }
 

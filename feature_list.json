@@ -28,7 +28,7 @@
       "id": "F-02",
       "name": "Upgrade Spring Boot to 3.x",
       "description": "Update spring-boot-starter-parent version to latest 3.x and add starter validation.",
-      "status": "todo",
+      "status": "completed",
       "last_updated": "2026-07-06",
       "evidence": [
         "pom.xml"
@@ -38,7 +38,7 @@
       "id": "F-03",
       "name": "Migrate javax.* to jakarta.*",
       "description": "Change all javax.persistence and javax.validation imports to jakarta namespace.",
-      "status": "todo",
+      "status": "completed",
       "last_updated": "2026-07-06",
       "evidence": [
         "src/main/java/com/ruhuna/employee_management_api/model/Employee.java",
@@ -70,10 +70,12 @@
       "id": "F-06",
       "name": "Migrate tests to JUnit 5",
       "description": "Convert JUnit 4 tests to JUnit Jupiter tests.",
-      "status": "todo",
+      "status": "completed",
       "last_updated": "2026-07-06",
       "evidence": [
-        "src/test/java/com/ruhuna/employee_management_api/EmployeeManagementApiApplicationTests.java"
+        "src/test/java/com/ruhuna/employee_management_api/MapperTest.java",
+        "src/test/java/com/ruhuna/employee_management_api/api/EmployeeControllerTest.java",
+        "src/test/java/com/ruhuna/employee_management_api/api/SkillControllerTest.java"
       ]
     },
     {
