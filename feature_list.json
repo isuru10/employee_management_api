@@ -263,6 +263,17 @@
         "src/test/java/com/ruhuna/employee_management_api/controller/EmployeeControllerTest.java",
         "src/test/java/com/ruhuna/employee_management_api/controller/SkillControllerTest.java"
       ]
+    },
+    {
+      "id": "F-22",
+      "name": "Refactor Skill Association to ID-based Resolution",
+      "description": "Modify the employee save operation to link existing skills strictly by ID (Pattern 1), eliminating fragile description-based database lookups. Update unit tests to verify ID-only skill mappings.",
+      "status": "completed",
+      "last_updated": "2026-07-07",
+      "evidence": [
+        "src/main/java/com/ruhuna/employee_management_api/service/EmployeeService.java",
+        "src/test/java/com/ruhuna/employee_management_api/service/EmployeeServiceTest.java"
+      ]
     }
   ]
 }

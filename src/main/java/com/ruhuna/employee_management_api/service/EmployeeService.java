@@ -64,15 +64,28 @@ public class EmployeeService {
             employee = new Employee();
         }
 
-        Set<Skill> skills = dto.skills().stream()
+        List<Long> skillIds = dto.skills().stream()
                 .map(skillDto -> {
-                    Skill skill = skillRepository.findByDescription(skillDto.description());
-                    if (skill == null) {
-                        logger.warn("Skill not found with description: {}", skillDto.description());
-                        throw new EntityNotFoundException("Skill not found: " + skillDto.description());
+                    if (skillDto.id() == null) {
+                        logger.warn("Skill ID is null");
+                        throw new EntityNotFoundException("Skill ID must not be null");
                     }
-                    return skill;
-                }).collect(Collectors.toSet());
+                    return skillDto.id();
+                })
+                .collect(Collectors.toList());
+
+        List<Skill> foundSkills = skillRepository.findAllById(skillIds);
+
+        if (foundSkills.size() < skillIds.size()) {
+            List<Long> foundIds = foundSkills.stream().map(Skill::getId).toList();
+            List<Long> missingIds = skillIds.stream()
+                    .filter(id -> !foundIds.contains(id))
+                    .toList();
+            logger.warn("Skill(s) not found with ID(s): {}", missingIds);
+            throw new EntityNotFoundException("Skill(s) not found with ID(s): " + missingIds);
+        }
+
+        Set<Skill> skills = foundSkills.stream().collect(Collectors.toSet());
 
         employeeMapper.updateEmployeeFromDto(employee, dto, skills);
         employeeRepository.save(employee);

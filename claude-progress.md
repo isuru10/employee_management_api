@@ -6,7 +6,7 @@ This log tracks all agent sessions, features completed, and verification outcome
 
 ## Active Status
 - **Current Phase:** Architectural Refactoring
-- **Active Feature:** Refactor REST Controllers to Strict RESTful Standards (F-21)
+- **Active Feature:** Refactor Skill Association to ID-based Resolution (F-22)
 - **Status:** Completed
 
 ---
@@ -241,3 +241,13 @@ This log tracks all agent sessions, features completed, and verification outcome
   - Verified compilation and test executions pass cleanly using `bash init.sh`.
   - Spun up the container stack, verified container health status, and confirmed that the generated OpenAPI specification at `/v3/api-docs` matches the updated REST schemas.
 - **Status:** Completed F-21. REST controllers successfully refactored and validated.
+
+### Session 23: 2026-07-07T22:11Z
+- **Objective:** Execute F-22: Refactor Skill Association to ID-based Resolution & Optimize.
+- **Accomplishments:**
+  - Designed JUnit 5 unit tests in `EmployeeServiceTest.java` following TDD (success mapping with skills, error on null skill ID, error on missing skill ID in database) using `findAllById` mock matching.
+  - Refactored `EmployeeService.java` to associate skills with employees strictly by their unique ID (Pattern 1), eliminating fragile description-based lookups.
+  - Optimized database query performance by batching skill lookups into a single SELECT statement via `findAllById` instead of executing $N$ sequential individual select statements.
+  - Verified local compilations, unit/service tests, Jacoco coverage, and Pitest mutation metrics pass clean via `bash init.sh`.
+  - Spun up the Docker container stack, verified container health status, and manually tested skill association by performing POST requests passing ID-only skills to verify success, and passing invalid/null IDs to verify RFC 7807 problem details payloads indicating exactly which IDs are missing.
+- **Status:** Completed F-22. Skill resolution refactored strictly to ID-based batch fetching and verified.

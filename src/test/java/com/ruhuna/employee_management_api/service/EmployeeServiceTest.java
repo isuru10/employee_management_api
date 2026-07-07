@@ -156,4 +156,47 @@ public class EmployeeServiceTest {
         assertEquals(Level.INFO, logs.get(0).getLevel());
         assertTrue(logs.get(0).getFormattedMessage().contains("Deleting employee with ID: 1"));
     }
+
+    @Test
+    public void testSave_WithSkills_Success() {
+        SkillDto skillDto = new SkillDto(10L, "Java", List.of());
+        EmployeeDto employeeDto = new EmployeeDto(null, "Jane Doe", "jane@example.com", new Date(), List.of(skillDto));
+        Skill skill = new Skill();
+        skill.setId(10L);
+        skill.setDescription("Java");
+
+        when(skillRepository.findAllById(anyList())).thenReturn(List.of(skill));
+        
+        doAnswer(invocation -> {
+            Employee emp = invocation.getArgument(0);
+            emp.setName("Jane Doe");
+            return null;
+        }).when(employeeMapper).updateEmployeeFromDto(any(Employee.class), any(EmployeeDto.class), anySet());
+
+        when(employeeMapper.toDto(any(Employee.class))).thenReturn(employeeDto);
+
+        EmployeeDto result = employeeService.save(employeeDto);
+
+        assertNotNull(result);
+        verify(skillRepository, times(1)).findAllById(anyList());
+        verify(employeeRepository, times(1)).save(any(Employee.class));
+    }
+
+    @Test
+    public void testSave_WithSkills_NullId() {
+        SkillDto skillDto = new SkillDto(null, "Java", List.of());
+        EmployeeDto employeeDto = new EmployeeDto(null, "Jane Doe", "jane@example.com", new Date(), List.of(skillDto));
+
+        assertThrows(EntityNotFoundException.class, () -> employeeService.save(employeeDto));
+    }
+
+    @Test
+    public void testSave_WithSkills_NotFoundId() {
+        SkillDto skillDto = new SkillDto(10L, "Java", List.of());
+        EmployeeDto employeeDto = new EmployeeDto(null, "Jane Doe", "jane@example.com", new Date(), List.of(skillDto));
+
+        when(skillRepository.findAllById(anyList())).thenReturn(List.of());
+
+        assertThrows(EntityNotFoundException.class, () -> employeeService.save(employeeDto));
+    }
 }
