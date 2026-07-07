@@ -6,7 +6,7 @@ This log tracks all agent sessions, features completed, and verification outcome
 
 ## Active Status
 - **Current Phase:** Architectural Refactoring
-- **Active Feature:** Integrate MapStruct & Remove Custom Mapper (F-13)
+- **Active Feature:** Introduce Service Layer (F-14)
 - **Status:** Completed
 
 ---
@@ -151,3 +151,15 @@ This log tracks all agent sessions, features completed, and verification outcome
   - Rewrote `MapperTest.java` to test compile-time generated mapper implementations (`EmployeeMapperImpl`, `SkillMapperImpl`).
   - Confirmed 100% test success and build validation via `bash init.sh`.
 - **Status:** Completed F-13. Mappings are fully automated via MapStruct.
+
+### Session 15: 2026-07-07T19:21Z
+- **Objective:** Execute F-14: Introduce Service Layer (TDD workflow).
+- **Accomplishments:**
+  - Enforced TDD validation constraints by first writing empty skeleton service classes (`EmployeeService`, `SkillService`) throwing `UnsupportedOperationException`.
+  - Authored comprehensive JUnit 5 test suites (`EmployeeServiceTest`, `SkillServiceTest`) targeting the services and verified their compile-time failure.
+  - Implemented transactional database accesses, business rules, and MapStruct mapping integrations inside the service layer.
+  - Confirmed all service-level tests pass cleanly.
+  - Refactored `EmployeeController` and `SkillController` into thin delegates, injecting and calling the services.
+  - Updated controller unit tests to mock and test the service interfaces instead of repositories and mappers.
+  - Executed quality gate checks via `bash init.sh` verifying successful compilation, test pass, CRAP score safety, and mutation coverage.
+- **Status:** Completed F-14. Service layer fully implemented using TDD guidelines.

@@ -170,9 +170,16 @@
       "id": "F-14",
       "name": "Introduce Service Layer",
       "description": "Create EmployeeService and SkillService classes to encapsulate transaction boundaries, domain mapping orchestration, and business logic, making controllers thin.",
-      "status": "todo",
+      "status": "completed",
       "last_updated": "2026-07-07",
-      "evidence": []
+      "evidence": [
+        "src/main/java/com/ruhuna/employee_management_api/service/EmployeeService.java",
+        "src/main/java/com/ruhuna/employee_management_api/service/SkillService.java",
+        "src/main/java/com/ruhuna/employee_management_api/controller/EmployeeController.java",
+        "src/main/java/com/ruhuna/employee_management_api/controller/SkillController.java",
+        "src/test/java/com/ruhuna/employee_management_api/service/EmployeeServiceTest.java",
+        "src/test/java/com/ruhuna/employee_management_api/service/SkillServiceTest.java"
+      ]
     }
   ]
 }
