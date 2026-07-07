@@ -129,7 +129,7 @@
       "id": "F-11",
       "name": "Docker Database Setup",
       "description": "Set up Docker Compose for local PostgreSQL and document database startup/management instructions in developer documentation.",
-      "status": "todo",
+      "status": "completed",
       "last_updated": "2026-07-07",
       "evidence": [
         "docker-compose.yml",

@@ -6,7 +6,7 @@ This log tracks all agent sessions, features completed, and verification outcome
 
 ## Active Status
 - **Current Phase:** Configuration & Containerization
-- **Active Feature:** Externalize Configuration (F-10)
+- **Active Feature:** Docker Database Setup (F-11)
 - **Status:** Completed
 
 ---
@@ -117,3 +117,11 @@ This log tracks all agent sessions, features completed, and verification outcome
   - Created local `.env` containing connection credentials to resolve database connectivity requirements.
   - Verified compilation and test suite correctness.
 - **Status:** Completed F-10. Application configuration is successfully externalized.
+
+### Session 12: 2026-07-07T17:15Z
+- **Objective:** Execute F-11: Docker Database Setup.
+- **Accomplishments:**
+  - Created `docker-compose.yml` defining the local database stack using the `postgres:16-alpine` image.
+  - Verified Docker Compose configurations map variables correctly from the `.env` file via `docker compose config`.
+  - Documented container startup, shutdown, and logging commands in [AGENTS.md](file:///Users/isuru/Documents/Workspace/employee_management_api/AGENTS.md).
+- **Status:** Completed F-11. Docker database setup is fully completed and verified.
