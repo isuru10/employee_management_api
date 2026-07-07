@@ -107,10 +107,10 @@
       "id": "F-09",
       "name": "Extract Domain Knowledge",
       "description": "Identify implicit business rules and extract them into an authoritative knowledge doc to avoid duplicated knowledge.",
-      "status": "todo",
-      "last_updated": "2026-07-06",
+      "status": "completed",
+      "last_updated": "2026-07-07",
       "evidence": [
-        "knowledge/"
+        "knowledge/domain_knowledge.md"
       ]
     }
   ]
