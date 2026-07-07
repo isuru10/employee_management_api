@@ -218,6 +218,17 @@
       "evidence": [
         "Dockerfile"
       ]
+    },
+    {
+      "id": "F-18",
+      "name": "Configure Dedicated Health Check Endpoint",
+      "description": "Add Spring Boot Actuator dependency to enable standard health endpoint (/actuator/health) and update container configuration to monitor API availability via this dedicated endpoint.",
+      "status": "completed",
+      "last_updated": "2026-07-07",
+      "evidence": [
+        "pom.xml",
+        "Dockerfile"
+      ]
     }
   ]
 }

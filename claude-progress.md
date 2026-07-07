@@ -6,7 +6,7 @@ This log tracks all agent sessions, features completed, and verification outcome
 
 ## Active Status
 - **Current Phase:** Architectural Refactoring
-- **Active Feature:** Production-grade Dockerfile (F-17)
+- **Active Feature:** Configure Dedicated Health Check Endpoint (F-18)
 - **Status:** Completed
 
 ---
@@ -195,3 +195,13 @@ This log tracks all agent sessions, features completed, and verification outcome
   - Successfully verified the container builds, starts, connects to Postgres, marks itself as `healthy`, and enforces read-only write protection on `/app/app.jar` but allows writes in `/app/logs/`.
   - Confirmed health check metrics pass clean via `bash init.sh`.
 - **Status:** Completed F-17. Production-grade Dockerfile successfully implemented and verified.
+
+### Session 19: 2026-07-07T21:14Z
+- **Objective:** Execute F-18: Configure Dedicated Health Check Endpoint.
+- **Accomplishments:**
+  - Integrated `spring-boot-starter-actuator` dependency to expose Spring Boot's built-in application management capabilities.
+  - Updated the `Dockerfile` healthcheck command to poll the dedicated `/actuator/health` endpoint instead of `/api/employees/all`.
+  - Verified local build and automated test suites compilation and health validation metrics pass clean via `bash init.sh`.
+  - Spun up the Docker container stack and verified the healthcheck successfully marks the container as `healthy`.
+  - Verified that hitting the `/actuator/health` endpoint directly from the host machine returns a successful `{"status":"UP"}` response.
+- **Status:** Completed F-18. Dedicated health check endpoint successfully configured and verified.

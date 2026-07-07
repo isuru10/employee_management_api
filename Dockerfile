@@ -38,7 +38,7 @@ EXPOSE 8080
 
 # Healthcheck to monitor API availability
 HEALTHCHECK --interval=30s --timeout=3s --retries=3 \
-  CMD wget -qO- http://localhost:8080/api/employees/all > /dev/null || exit 1
+  CMD wget -qO- http://localhost:8080/actuator/health > /dev/null || exit 1
 
 # Run Java with container memory awareness, garbage collection, and failure handling configurations
 ENTRYPOINT ["java", \
