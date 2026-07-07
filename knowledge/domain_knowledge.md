@@ -44,22 +44,21 @@ The relationship between `Employee` and `Skill` is a **bidirectional Many-to-Man
 
 ---
 
-## 3. Transactional & Save Endpoint Rules
+## 3. Transactional & Endpoint Rules
 
-### A. Employee Save Operations (`POST /api/employees`)
-- **New Employee:** If the request payload contains a `null` ID, a new `Employee` instance is instantiated.
-- **Existing Employee:** If the request payload contains an ID:
-  - The application attempts to resolve the employee by ID.
+### A. Employee Operations
+- **Creation (`POST /api/employees`):** Used to create new employees. Enforces a `null` ID on the resource to guarantee server-generated database keys. Returns `201 Created` with a `Location` header.
+- **Update (`PUT /api/employees/{id}`):** Used to update existing employees.
   - If the ID does not exist in the database, the operation aborts and throws an `EntityNotFoundException` (resulting in a HTTP 404 response).
 - **Skill Reference Resolution:**
-  - Skills cannot be created implicitly or dynamically through the employee creation endpoint.
-  - Every skill listed in the employee DTO must already exist in the database (resolved via description lookup: `skillRepository.findByDescription(skillDescription)`).
-  - If any skill description in the request cannot be found in the database, the transaction aborts and throws an `EntityNotFoundException` (resulting in a HTTP 404 response).
+  - Skills cannot be created implicitly or dynamically through the employee creation or update endpoints.
+  - Every associated skill must be linked strictly by its unique `id`.
+  - The application performs an optimized **batch fetch** lookup (`skillRepository.findAllById(skillIds)`) to retrieve and associate existing skills.
+  - If any skill ID in the request cannot be found in the database, the transaction aborts and throws an `EntityNotFoundException` (resulting in an HTTP 404 response) indicating exactly which ID(s) are missing.
 
-### B. Skill Save Operations (`POST /api/skills`)
-- **New Skill:** If the request payload contains a `null` ID, a new `Skill` instance is instantiated.
-- **Existing Skill:** If the request payload contains an ID:
-  - The application attempts to resolve the skill by ID.
+### B. Skill Operations
+- **Creation (`POST /api/skills`):** Used to create new skills. Enforces a `null` ID. Returns `201 Created` with a `Location` header.
+- **Update (`PUT /api/skills/{id}`):** Used to update existing skills.
   - If the ID does not exist in the database, the operation aborts and throws an `EntityNotFoundException` (resulting in a HTTP 404 response).
 
 ---
@@ -68,12 +67,12 @@ The relationship between `Employee` and `Skill` is a **bidirectional Many-to-Man
 
 All request payloads are validated at the controller boundary using the Spring `@Valid` annotation.
 
-### `EmployeeViewModel` (Record)
+### `EmployeeDto` (Record)
 - **`name`:** Must not be null (`@NotNull`).
 - **`email`:** Must be a valid email format (`@Email`).
 - **`skills`:** Default initialization ensures it is never null (defaults to `List.of()`).
 
-### `SkillViewModel` (Record)
+### `SkillDto` (Record)
 - **`description`:** Must not be null (`@NotNull`).
 - **`employees`:** Default initialization ensures it is never null (defaults to `List.of()`).
 
@@ -87,5 +86,5 @@ Centralized error handling is configured using `@RestControllerAdvice` (`GlobalE
   - Triggered by invalid DTO inputs (e.g. missing name, invalid email format).
   - The response payload utilizes the Spring `ProblemDetail` structure with properties outlining specific field-level validation errors.
 - **Entity Missing Errors (`HTTP 404 Not Found`):**
-  - Triggered when lookup by ID fails or when a skill reference description does not exist.
+  - Triggered when lookup by ID fails or when a skill reference ID does not exist.
   - Returns a standard `ProblemDetail` payload with a 404 status.
