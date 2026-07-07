@@ -112,6 +112,29 @@
       "evidence": [
         "knowledge/domain_knowledge.md"
       ]
+    },
+    {
+      "id": "F-10",
+      "name": "Externalize Configuration",
+      "description": "Expose database credentials to environment variables, configure a local .env template, and configure .gitignore to ignore raw secret files.",
+      "status": "completed",
+      "last_updated": "2026-07-07",
+      "evidence": [
+        "src/main/resources/application.properties",
+        ".env.example",
+        ".gitignore"
+      ]
+    },
+    {
+      "id": "F-11",
+      "name": "Docker Database Setup",
+      "description": "Set up Docker Compose for local PostgreSQL and document database startup/management instructions in developer documentation.",
+      "status": "todo",
+      "last_updated": "2026-07-07",
+      "evidence": [
+        "docker-compose.yml",
+        "AGENTS.md"
+      ]
     }
   ]
 }
