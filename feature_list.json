@@ -154,6 +154,20 @@
     },
     {
       "id": "F-13",
+      "name": "Integrate MapStruct & Remove Custom Mapper",
+      "description": "Add MapStruct dependencies to pom.xml, generate compile-time mapper interfaces, and delete the custom Mapper class.",
+      "status": "completed",
+      "last_updated": "2026-07-07",
+      "evidence": [
+        "pom.xml",
+        "src/main/java/com/ruhuna/employee_management_api/mapper/EmployeeMapper.java",
+        "src/main/java/com/ruhuna/employee_management_api/mapper/SkillMapper.java",
+        "src/main/java/com/ruhuna/employee_management_api/controller/EmployeeController.java",
+        "src/main/java/com/ruhuna/employee_management_api/controller/SkillController.java"
+      ]
+    },
+    {
+      "id": "F-14",
       "name": "Introduce Service Layer",
       "description": "Create EmployeeService and SkillService classes to encapsulate transaction boundaries, domain mapping orchestration, and business logic, making controllers thin.",
       "status": "todo",

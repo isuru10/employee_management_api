@@ -1,5 +1,9 @@
 package com.ruhuna.employee_management_api;
 
+import com.ruhuna.employee_management_api.mapper.EmployeeMapper;
+import com.ruhuna.employee_management_api.mapper.EmployeeMapperImpl;
+import com.ruhuna.employee_management_api.mapper.SkillMapper;
+import com.ruhuna.employee_management_api.mapper.SkillMapperImpl;
 import com.ruhuna.employee_management_api.model.Employee;
 import com.ruhuna.employee_management_api.model.Skill;
 import com.ruhuna.employee_management_api.dto.EmployeeDto;
@@ -16,11 +20,13 @@ import static org.junit.jupiter.api.Assertions.*;
 @ExtendWith(MockitoExtension.class)
 public class MapperTest {
 
-    private Mapper mapper;
+    private EmployeeMapper employeeMapper;
+    private SkillMapper skillMapper;
 
     @BeforeEach
     public void setUp() {
-        mapper = new Mapper();
+        employeeMapper = new EmployeeMapperImpl();
+        skillMapper = new SkillMapperImpl();
     }
 
     @Test
@@ -32,7 +38,7 @@ public class MapperTest {
         skill.setId(10L);
         employee.getSkills().add(skill);
 
-        EmployeeDto dto = mapper.convertToEmployeeDto(employee);
+        EmployeeDto dto = employeeMapper.toDto(employee);
 
         assertEquals(employee.getId(), dto.id());
         assertEquals(employee.getName(), dto.name());
@@ -52,7 +58,7 @@ public class MapperTest {
         employee.setId(1L);
         skill.getEmployees().add(employee);
 
-        SkillDto dto = mapper.convertToSkillDto(skill);
+        SkillDto dto = skillMapper.toDto(skill);
 
         assertEquals(skill.getId(), dto.id());
         assertEquals(skill.getDescription(), dto.description());
@@ -75,7 +81,7 @@ public class MapperTest {
         Skill skill = new Skill("Spring");
         Employee employee = new Employee();
 
-        mapper.updateEmployeeFromDto(employee, dto, Set.of(skill));
+        employeeMapper.updateEmployeeFromDto(employee, dto, Set.of(skill));
 
         assertNull(employee.getId());
         assertEquals(dto.name(), employee.getName());
@@ -100,7 +106,7 @@ public class MapperTest {
         existingEmployee.setId(1L);
         Skill skill = new Skill("Spring");
 
-        mapper.updateEmployeeFromDto(existingEmployee, dto, Set.of(skill));
+        employeeMapper.updateEmployeeFromDto(existingEmployee, dto, Set.of(skill));
 
         assertNotNull(existingEmployee.getId());
         assertEquals(1L, (long) existingEmployee.getId());
@@ -114,7 +120,7 @@ public class MapperTest {
         SkillDto dto = new SkillDto("React");
         Skill skill = new Skill();
 
-        mapper.updateSkillFromDto(skill, dto);
+        skillMapper.updateSkillFromDto(skill, dto);
 
         assertNull(skill.getId());
         assertEquals("React", skill.getDescription());
@@ -126,7 +132,7 @@ public class MapperTest {
         Skill existingSkill = new Skill("Old React");
         existingSkill.setId(10L);
 
-        mapper.updateSkillFromDto(existingSkill, dto);
+        skillMapper.updateSkillFromDto(existingSkill, dto);
 
         assertEquals(10L, (long) existingSkill.getId());
         assertEquals("React", existingSkill.getDescription());

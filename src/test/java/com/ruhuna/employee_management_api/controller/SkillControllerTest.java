@@ -1,6 +1,6 @@
 package com.ruhuna.employee_management_api.controller;
 
-import com.ruhuna.employee_management_api.Mapper;
+import com.ruhuna.employee_management_api.mapper.SkillMapper;
 import com.ruhuna.employee_management_api.repository.SkillRepository;
 import com.ruhuna.employee_management_api.model.Skill;
 import com.ruhuna.employee_management_api.dto.SkillDto;
@@ -27,11 +27,11 @@ public class SkillControllerTest {
     private SkillRepository skillRepository;
 
     @Mock
-    private Mapper mapper;
+    private SkillMapper skillMapper;
 
     @BeforeEach
     public void setUp() {
-        skillController = new SkillController(skillRepository, mapper);
+        skillController = new SkillController(skillRepository, skillMapper);
     }
 
     @Test
@@ -40,7 +40,7 @@ public class SkillControllerTest {
         SkillDto dto = new SkillDto(10L, "Java", List.of());
 
         when(skillRepository.findAll()).thenReturn(Collections.singletonList(skill));
-        when(mapper.convertToSkillDto(skill)).thenReturn(dto);
+        when(skillMapper.toDto(skill)).thenReturn(dto);
 
         List<SkillDto> result = skillController.getAll();
 
@@ -54,7 +54,7 @@ public class SkillControllerTest {
         SkillDto dto = new SkillDto(10L, "Java", List.of());
 
         when(skillRepository.findById(10L)).thenReturn(Optional.of(skill));
-        when(mapper.convertToSkillDto(skill)).thenReturn(dto);
+        when(skillMapper.toDto(skill)).thenReturn(dto);
 
         SkillDto result = skillController.getById(10L);
 
@@ -73,12 +73,13 @@ public class SkillControllerTest {
         SkillDto dto = new SkillDto(null, "Java", List.of());
         Skill skill = new Skill("Java");
 
-        when(mapper.updateSkillFromDto(any(Skill.class), any(SkillDto.class))).thenAnswer(invocation -> {
+        doAnswer(invocation -> {
             Skill s = invocation.getArgument(0);
             s.setDescription("Java");
-            return s;
-        });
-        when(mapper.convertToSkillDto(any(Skill.class))).thenReturn(dto);
+            return null;
+        }).when(skillMapper).updateSkillFromDto(any(Skill.class), any(SkillDto.class));
+        
+        when(skillMapper.toDto(any(Skill.class))).thenReturn(dto);
 
         SkillDto result = skillController.save(dto);
 

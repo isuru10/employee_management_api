@@ -1,6 +1,6 @@
 package com.ruhuna.employee_management_api.controller;
 
-import com.ruhuna.employee_management_api.Mapper;
+import com.ruhuna.employee_management_api.mapper.EmployeeMapper;
 import com.ruhuna.employee_management_api.repository.EmployeeRepository;
 import com.ruhuna.employee_management_api.repository.SkillRepository;
 import com.ruhuna.employee_management_api.model.Employee;
@@ -34,11 +34,11 @@ public class EmployeeControllerTest {
     private SkillRepository skillRepository;
 
     @Mock
-    private Mapper mapper;
+    private EmployeeMapper employeeMapper;
 
     @BeforeEach
     public void setUp() {
-        employeeController = new EmployeeController(employeeRepository, skillRepository, mapper, null);
+        employeeController = new EmployeeController(employeeRepository, skillRepository, employeeMapper, null);
     }
 
     @Test
@@ -47,7 +47,7 @@ public class EmployeeControllerTest {
         EmployeeDto dto = new EmployeeDto(1L, "John Doe", "john@example.com", new Date(), List.of());
 
         when(employeeRepository.findAll()).thenReturn(Collections.singletonList(employee));
-        when(mapper.convertToEmployeeDto(employee)).thenReturn(dto);
+        when(employeeMapper.toDto(employee)).thenReturn(dto);
 
         List<EmployeeDto> result = employeeController.getAll();
 
@@ -61,7 +61,7 @@ public class EmployeeControllerTest {
         EmployeeDto dto = new EmployeeDto(1L, "John Doe", "john@example.com", new Date(), List.of());
 
         when(employeeRepository.findById(1L)).thenReturn(Optional.of(employee));
-        when(mapper.convertToEmployeeDto(employee)).thenReturn(dto);
+        when(employeeMapper.toDto(employee)).thenReturn(dto);
 
         EmployeeDto result = employeeController.getById(1L);
 
@@ -80,13 +80,14 @@ public class EmployeeControllerTest {
         EmployeeDto dto = new EmployeeDto(null, "Jane Doe", "jane@example.com", new Date(), List.of());
         Employee employee = new Employee("Jane Doe", "jane@example.com", new Date());
 
-        when(mapper.updateEmployeeFromDto(any(Employee.class), any(EmployeeDto.class), anySet())).thenAnswer(invocation -> {
+        doAnswer(invocation -> {
             Employee emp = invocation.getArgument(0);
             emp.setName("Jane Doe");
             emp.setEmail("jane@example.com");
-            return emp;
-        });
-        when(mapper.convertToEmployeeDto(any(Employee.class))).thenReturn(dto);
+            return null;
+        }).when(employeeMapper).updateEmployeeFromDto(any(Employee.class), any(EmployeeDto.class), anySet());
+        
+        when(employeeMapper.toDto(any(Employee.class))).thenReturn(dto);
 
         EmployeeDto result = employeeController.save(dto);
 
@@ -102,11 +103,7 @@ public class EmployeeControllerTest {
         employee.setId(1L);
 
         when(employeeRepository.findById(1L)).thenReturn(Optional.of(employee));
-        when(mapper.updateEmployeeFromDto(any(Employee.class), any(EmployeeDto.class), anySet())).thenAnswer(invocation -> {
-            Employee emp = invocation.getArgument(0);
-            return emp;
-        });
-        when(mapper.convertToEmployeeDto(any(Employee.class))).thenReturn(dto);
+        when(employeeMapper.toDto(any(Employee.class))).thenReturn(dto);
 
         EmployeeDto result = employeeController.save(dto);
 
@@ -133,11 +130,7 @@ public class EmployeeControllerTest {
         skill.setId(1L);
 
         when(skillRepository.findByDescription("Java")).thenReturn(skill);
-        when(mapper.updateEmployeeFromDto(any(Employee.class), any(EmployeeDto.class), anySet())).thenAnswer(invocation -> {
-            Employee emp = invocation.getArgument(0);
-            return emp;
-        });
-        when(mapper.convertToEmployeeDto(any(Employee.class))).thenReturn(employeeDto);
+        when(employeeMapper.toDto(any(Employee.class))).thenReturn(employeeDto);
 
         EmployeeDto result = employeeController.save(employeeDto);
 

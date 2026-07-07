@@ -6,7 +6,7 @@ This log tracks all agent sessions, features completed, and verification outcome
 
 ## Active Status
 - **Current Phase:** Architectural Refactoring
-- **Active Feature:** Refactor Package Layout (F-12)
+- **Active Feature:** Integrate MapStruct & Remove Custom Mapper (F-13)
 - **Status:** Completed
 
 ---
@@ -139,3 +139,15 @@ This log tracks all agent sessions, features completed, and verification outcome
   - Updated directory validation logic in `init.sh` and layout maps in `AGENTS.md`.
   - Confirmed 100% test success, build validity, and mutation test pass via `bash init.sh`.
 - **Status:** Completed F-12. Directory layout matches modern Spring guidelines.
+
+### Session 14: 2026-07-07T18:00Z
+- **Objective:** Execute F-13: Integrate MapStruct & Remove Custom Mapper.
+- **Accomplishments:**
+  - Added MapStruct core dependency and annotation processor configurations to `pom.xml`.
+  - Created `EmployeeMapper` and `SkillMapper` MapStruct interfaces with mapping instructions that resolve bidirectional entity relationships.
+  - Deleted legacy `Mapper.java` class.
+  - Refactored `EmployeeController` and `SkillController` to inject and use the generated MapStruct mappers.
+  - Updated mock dependencies inside controller test suites (`EmployeeControllerTest.java`, `SkillControllerTest.java`).
+  - Rewrote `MapperTest.java` to test compile-time generated mapper implementations (`EmployeeMapperImpl`, `SkillMapperImpl`).
+  - Confirmed 100% test success and build validation via `bash init.sh`.
+- **Status:** Completed F-13. Mappings are fully automated via MapStruct.

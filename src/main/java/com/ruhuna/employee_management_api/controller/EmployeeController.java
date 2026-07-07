@@ -1,6 +1,6 @@
 package com.ruhuna.employee_management_api.controller;
 
-import com.ruhuna.employee_management_api.Mapper;
+import com.ruhuna.employee_management_api.mapper.EmployeeMapper;
 import com.ruhuna.employee_management_api.repository.EmployeeRepository;
 import com.ruhuna.employee_management_api.repository.SkillRepository;
 import com.ruhuna.employee_management_api.model.Employee;
@@ -22,13 +22,13 @@ import java.util.stream.Collectors;
 public class EmployeeController {
     private EmployeeRepository employeeRepository;
     private SkillRepository skillRepository;
-    private Mapper mapper;
+    private EmployeeMapper employeeMapper;
     private EntityManager em;
 
-    public EmployeeController(EmployeeRepository employeeRepository, SkillRepository skillRepository, Mapper mapper, EntityManager em){
+    public EmployeeController(EmployeeRepository employeeRepository, SkillRepository skillRepository, EmployeeMapper employeeMapper, EntityManager em){
         this.employeeRepository = employeeRepository;
         this.skillRepository = skillRepository;
-        this.mapper = mapper;
+        this.employeeMapper = employeeMapper;
         this.em = em;
     }
 
@@ -36,7 +36,7 @@ public class EmployeeController {
     public List<EmployeeDto> getAll(){
         return employeeRepository.findAll()
                 .stream()
-                .map(employee -> this.mapper.convertToEmployeeDto(employee))
+                .map(employee -> this.employeeMapper.toDto(employee))
                 .collect(Collectors.toList());
     }
 
@@ -46,7 +46,7 @@ public class EmployeeController {
         if(employee == null){
             throw new EntityNotFoundException();
         }
-        return this.mapper.convertToEmployeeDto(employee);
+        return this.employeeMapper.toDto(employee);
     }
 
     @PostMapping
@@ -71,10 +71,10 @@ public class EmployeeController {
                     return skill;
                 }).collect(Collectors.toSet());
 
-        this.mapper.updateEmployeeFromDto(employee, dto, skills);
+        this.employeeMapper.updateEmployeeFromDto(employee, dto, skills);
         this.employeeRepository.save(employee);
 
-        return this.mapper.convertToEmployeeDto(employee);
+        return this.employeeMapper.toDto(employee);
     }
 
     @DeleteMapping("/{id}")
