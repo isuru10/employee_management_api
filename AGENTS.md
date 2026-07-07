@@ -43,6 +43,8 @@ Always use the Maven Wrapper (`./mvnw`) to manage the application lifecycle:
 
 - **Clean and Compile:** `./mvnw clean compile`
 - **Run Tests:** `./mvnw test`
+- **CRAP Metrics & Coverage Check:** `./mvnw clean verify`
+- **Mutation Testing:** `./mvnw pitest:mutationCoverage`
 - **Package Application:** `./mvnw package -DskipTests`
 - **Run Locally:** `./mvnw spring-boot:run`
 - **Initialize & Health Check:** `bash init.sh`

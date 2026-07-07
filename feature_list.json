@@ -94,10 +94,13 @@
       "id": "F-08",
       "name": "Configure Quality Lenses (Mutation Testing & CRAP)",
       "description": "Evaluate test suite strength with mutation testing and check complexity of core functions.",
-      "status": "todo",
-      "last_updated": "2026-07-06",
+      "status": "completed",
+      "last_updated": "2026-07-07",
       "evidence": [
-        "pom.xml"
+        "pom.xml",
+        "src/test/java/com/ruhuna/employee_management_api/api/EmployeeControllerTest.java",
+        "CLAUDE.md",
+        "AGENTS.md"
       ]
     },
     {

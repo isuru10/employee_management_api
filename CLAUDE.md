@@ -5,6 +5,8 @@
 - **Build Tool:** Maven Wrapper (`./mvnw`)
 - **Compilation:** `./mvnw clean compile`
 - **Execution & Verification:** `./mvnw test`
+- **CRAP Metrics & Coverage Check:** `./mvnw clean verify`
+- **Mutation Testing:** `./mvnw pitest:mutationCoverage`
 - **Run Locally:** `./mvnw spring-boot:run`
 - **Initialize & Health Check:** `bash init.sh`
 
