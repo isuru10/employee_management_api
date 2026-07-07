@@ -149,8 +149,7 @@
         "src/main/java/com/ruhuna/employee_management_api/controller/SkillController.java",
         "src/main/java/com/ruhuna/employee_management_api/controller/GlobalExceptionHandler.java",
         "src/main/java/com/ruhuna/employee_management_api/repository/EmployeeRepository.java",
-        "src/main/java/com/ruhuna/employee_management_api/repository/SkillRepository.java",
-        "src/main/java/com/ruhuna/employee_management_api/repository/DbSeeder.java"
+        "src/main/java/com/ruhuna/employee_management_api/repository/SkillRepository.java"
       ]
     },
     {
