@@ -7,11 +7,19 @@ import com.ruhuna.employee_management_api.model.Employee;
 import com.ruhuna.employee_management_api.model.Skill;
 import com.ruhuna.employee_management_api.dto.EmployeeDto;
 import com.ruhuna.employee_management_api.dto.SkillDto;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+
+import ch.qos.logback.classic.Level;
+import ch.qos.logback.classic.Logger;
+import ch.qos.logback.classic.spi.ILoggingEvent;
+import ch.qos.logback.core.read.ListAppender;
+import org.slf4j.LoggerFactory;
 
 import jakarta.persistence.EntityNotFoundException;
 import java.util.Collections;
@@ -36,6 +44,22 @@ public class EmployeeServiceTest {
 
     @Mock
     private EmployeeMapper employeeMapper;
+
+    private ListAppender<ILoggingEvent> listAppender;
+    private Logger logger;
+
+    @BeforeEach
+    public void setupLogger() {
+        logger = (Logger) LoggerFactory.getLogger(EmployeeService.class);
+        listAppender = new ListAppender<>();
+        listAppender.start();
+        logger.addAppender(listAppender);
+    }
+
+    @AfterEach
+    public void teardownLogger() {
+        logger.detachAppender(listAppender);
+    }
 
     @Test
     public void testGetAll() {
@@ -125,5 +149,11 @@ public class EmployeeServiceTest {
     public void testDelete() {
         employeeService.delete(1L);
         verify(employeeRepository, times(1)).deleteById(1L);
+
+        // Verify log output
+        List<ILoggingEvent> logs = listAppender.list;
+        assertFalse(logs.isEmpty());
+        assertEquals(Level.INFO, logs.get(0).getLevel());
+        assertTrue(logs.get(0).getFormattedMessage().contains("Deleting employee with ID: 1"));
     }
 }

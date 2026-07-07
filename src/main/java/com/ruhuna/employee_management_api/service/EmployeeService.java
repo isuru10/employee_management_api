@@ -6,6 +6,8 @@ import com.ruhuna.employee_management_api.model.Employee;
 import com.ruhuna.employee_management_api.model.Skill;
 import com.ruhuna.employee_management_api.repository.EmployeeRepository;
 import com.ruhuna.employee_management_api.repository.SkillRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,6 +19,8 @@ import java.util.stream.Collectors;
 @Service
 @Transactional
 public class EmployeeService {
+
+    private static final Logger logger = LoggerFactory.getLogger(EmployeeService.class);
 
     private final EmployeeRepository employeeRepository;
     private final SkillRepository skillRepository;
@@ -30,6 +34,7 @@ public class EmployeeService {
 
     @Transactional(readOnly = true)
     public List<EmployeeDto> getAll() {
+        logger.debug("Retrieving all employees");
         return employeeRepository.findAll().stream()
                 .map(employeeMapper::toDto)
                 .collect(Collectors.toList());
@@ -37,16 +42,24 @@ public class EmployeeService {
 
     @Transactional(readOnly = true)
     public EmployeeDto getById(Long id) {
+        logger.debug("Retrieving employee with ID: {}", id);
         Employee employee = employeeRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Employee not found"));
+                .orElseThrow(() -> {
+                    logger.warn("Employee not found with ID: {}", id);
+                    return new EntityNotFoundException("Employee not found");
+                });
         return employeeMapper.toDto(employee);
     }
 
     public EmployeeDto save(EmployeeDto dto) {
+        logger.info("Saving employee: {}", dto);
         Employee employee;
         if (dto.id() != null) {
             employee = employeeRepository.findById(dto.id())
-                    .orElseThrow(() -> new EntityNotFoundException("Employee not found"));
+                    .orElseThrow(() -> {
+                        logger.warn("Employee not found with ID: {}", dto.id());
+                        return new EntityNotFoundException("Employee not found");
+                    });
         } else {
             employee = new Employee();
         }
@@ -55,6 +68,7 @@ public class EmployeeService {
                 .map(skillDto -> {
                     Skill skill = skillRepository.findByDescription(skillDto.description());
                     if (skill == null) {
+                        logger.warn("Skill not found with description: {}", skillDto.description());
                         throw new EntityNotFoundException("Skill not found: " + skillDto.description());
                     }
                     return skill;
@@ -62,10 +76,12 @@ public class EmployeeService {
 
         employeeMapper.updateEmployeeFromDto(employee, dto, skills);
         employeeRepository.save(employee);
+        logger.info("Employee saved successfully with ID: {}", employee.getId());
         return employeeMapper.toDto(employee);
     }
 
     public void delete(Long id) {
+        logger.info("Deleting employee with ID: {}", id);
         employeeRepository.deleteById(id);
     }
 }

@@ -180,6 +180,22 @@
         "src/test/java/com/ruhuna/employee_management_api/service/EmployeeServiceTest.java",
         "src/test/java/com/ruhuna/employee_management_api/service/SkillServiceTest.java"
       ]
+    },
+    {
+      "id": "F-15",
+      "name": "Configure Application Logging",
+      "description": "Integrate structured SLF4J logging across services and exception handlers, customize logging levels, configure file-based log outputs, and update gitignore.",
+      "status": "completed",
+      "last_updated": "2026-07-07",
+      "evidence": [
+        "src/main/resources/application.properties",
+        ".gitignore",
+        "src/main/java/com/ruhuna/employee_management_api/service/EmployeeService.java",
+        "src/main/java/com/ruhuna/employee_management_api/service/SkillService.java",
+        "src/main/java/com/ruhuna/employee_management_api/controller/GlobalExceptionHandler.java",
+        "src/test/java/com/ruhuna/employee_management_api/service/EmployeeServiceTest.java",
+        "src/test/java/com/ruhuna/employee_management_api/service/SkillServiceTest.java"
+      ]
     }
   ]
 }

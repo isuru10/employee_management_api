@@ -6,7 +6,7 @@ This log tracks all agent sessions, features completed, and verification outcome
 
 ## Active Status
 - **Current Phase:** Architectural Refactoring
-- **Active Feature:** Introduce Service Layer (F-14)
+- **Active Feature:** Configure Application Logging (F-15)
 - **Status:** Completed
 
 ---
@@ -163,3 +163,14 @@ This log tracks all agent sessions, features completed, and verification outcome
   - Updated controller unit tests to mock and test the service interfaces instead of repositories and mappers.
   - Executed quality gate checks via `bash init.sh` verifying successful compilation, test pass, CRAP score safety, and mutation coverage.
 - **Status:** Completed F-14. Service layer fully implemented using TDD guidelines.
+
+### Session 16: 2026-07-07T19:40Z
+- **Objective:** Execute F-15: Configure Application Logging (TDD workflow).
+- **Accomplishments:**
+  - Configured logging levels and log file paths (`logs/app.log`) inside `application.properties`.
+  - Added `/logs/` to `.gitignore` to prevent generated log files from being tracked by git.
+  - Authored JUnit 5 log capturing tests in `EmployeeServiceTest` and `SkillServiceTest` to ensure that service delete operations emit the expected INFO level logs. Verified the tests fail as expected (TDD Validation Gate).
+  - Added SLF4J logging statements to `EmployeeService`, `SkillService`, and `GlobalExceptionHandler`.
+  - Confirmed all tests (including the log capture tests) compile and pass cleanly.
+  - Executed final quality gate verification via `bash init.sh`.
+- **Status:** Completed F-15. Application logging is fully integrated and tested under TDD rules.
