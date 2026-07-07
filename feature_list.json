@@ -274,6 +274,19 @@
         "src/main/java/com/ruhuna/employee_management_api/service/EmployeeService.java",
         "src/test/java/com/ruhuna/employee_management_api/service/EmployeeServiceTest.java"
       ]
+    },
+    {
+      "id": "F-23",
+      "name": "Implement Integration Testing with a Working Database",
+      "description": "Configure an integration test environment with a working database to test the complete REST API request-to-persistence flow under Spring Boot. Update test configurations and add integration test suites.",
+      "status": "completed",
+      "last_updated": "2026-07-07",
+      "evidence": [
+        "pom.xml",
+        "src/test/resources/application-test.yml",
+        "src/test/java/com/ruhuna/employee_management_api/integration/EmployeeControllerIntegrationTest.java",
+        "src/test/java/com/ruhuna/employee_management_api/integration/SkillControllerIntegrationTest.java"
+      ]
     }
   ]
 }
