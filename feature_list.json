@@ -250,6 +250,19 @@
         "src/main/resources/application.yml",
         "docker-compose.yml"
       ]
+    },
+    {
+      "id": "F-21",
+      "name": "Refactor REST Controllers to Strict RESTful Standards",
+      "description": "Refactor EmployeeController and SkillController to adhere to strict REST conventions: map GET all to base paths, separate create (POST returning 201) and update (PUT), and return 204 No Content for DELETE. Update all test suites to verify status codes and locations.",
+      "status": "completed",
+      "last_updated": "2026-07-07",
+      "evidence": [
+        "src/main/java/com/ruhuna/employee_management_api/controller/EmployeeController.java",
+        "src/main/java/com/ruhuna/employee_management_api/controller/SkillController.java",
+        "src/test/java/com/ruhuna/employee_management_api/controller/EmployeeControllerTest.java",
+        "src/test/java/com/ruhuna/employee_management_api/controller/SkillControllerTest.java"
+      ]
     }
   ]
 }

@@ -6,7 +6,7 @@ This log tracks all agent sessions, features completed, and verification outcome
 
 ## Active Status
 - **Current Phase:** Architectural Refactoring
-- **Active Feature:** Refactor application.properties to YAML (F-20)
+- **Active Feature:** Refactor REST Controllers to Strict RESTful Standards (F-21)
 - **Status:** Completed
 
 ---
@@ -229,3 +229,15 @@ This log tracks all agent sessions, features completed, and verification outcome
   - Verified that local compilations, unit/service tests, Jacoco coverage, and Pitest mutation metrics pass clean via `bash init.sh`.
   - Confirmed the container stack boots correctly, connects to PostgreSQL, marks itself as `healthy`, logs exclusively to stdout, and limits logging to `INFO` level.
 - **Status:** Completed F-20. Configuration successfully refactored and hardened for production.
+
+### Session 22: 2026-07-07T21:43Z
+- **Objective:** Execute F-21: Refactor REST Controllers to Strict RESTful Standards.
+- **Accomplishments:**
+  - Designed JUnit 5 test suites following TDD workflow in `EmployeeControllerTest.java` and `SkillControllerTest.java` to test REST-compliant responses (HTTP 201 with Location headers, HTTP 204 for DELETE, and PUT mappings) and confirmed they fail to compile/run (TDD compilation gate).
+  - Refactored `EmployeeController` and `SkillController` endpoints to return `ResponseEntity<T>` wrappers, cleanly mapping REST resources to HTTP verbs.
+  - Decoupled combined save endpoints into distinct POST (resource creation returning `201 Created` with `Location` header) and PUT (resource update returning `200 OK`) mappings.
+  - Standardized all `DELETE` endpoints to return `204 No Content` HTTP responses instead of `200 OK` empty bodies.
+  - Cleaned up custom RPC-style paths (e.g. `/all`) and mapped collection lookups to the base collection URIs (`/api/employees` and `/api/skills`).
+  - Verified compilation and test executions pass cleanly using `bash init.sh`.
+  - Spun up the container stack, verified container health status, and confirmed that the generated OpenAPI specification at `/v3/api-docs` matches the updated REST schemas.
+- **Status:** Completed F-21. REST controllers successfully refactored and validated.
