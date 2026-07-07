@@ -21,6 +21,8 @@ Ensure you maintain this structure. Do not create ad-hoc files in the root folde
 ├── feature_list.json       # Structured progress and scope tracker
 ├── claude-progress.md      # Chronological session and handoff log
 ├── pom.xml                 # Maven project configuration
+├── knowledge/
+│   └── domain_knowledge.md # Authoritative domain knowledge and business rules
 ├── src/
 │   ├── main/
 │   │   ├── java/com/ruhuna/employee_management_api/
