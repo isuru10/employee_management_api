@@ -229,6 +229,16 @@
         "pom.xml",
         "Dockerfile"
       ]
+    },
+    {
+      "id": "F-19",
+      "name": "Integrate Swagger/OpenAPI Documentation",
+      "description": "Add springdoc-openapi UI dependency to auto-generate API documentation and expose the Swagger UI endpoint (/swagger-ui/index.html) for interactive testing.",
+      "status": "completed",
+      "last_updated": "2026-07-07",
+      "evidence": [
+        "pom.xml"
+      ]
     }
   ]
 }

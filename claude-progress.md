@@ -6,7 +6,7 @@ This log tracks all agent sessions, features completed, and verification outcome
 
 ## Active Status
 - **Current Phase:** Architectural Refactoring
-- **Active Feature:** Configure Dedicated Health Check Endpoint (F-18)
+- **Active Feature:** Integrate Swagger/OpenAPI Documentation (F-19)
 - **Status:** Completed
 
 ---
@@ -205,3 +205,12 @@ This log tracks all agent sessions, features completed, and verification outcome
   - Spun up the Docker container stack and verified the healthcheck successfully marks the container as `healthy`.
   - Verified that hitting the `/actuator/health` endpoint directly from the host machine returns a successful `{"status":"UP"}` response.
 - **Status:** Completed F-18. Dedicated health check endpoint successfully configured and verified.
+
+### Session 20: 2026-07-07T21:24Z
+- **Objective:** Execute F-19: Integrate Swagger/OpenAPI Documentation.
+- **Accomplishments:**
+  - Added `springdoc-openapi-starter-webmvc-ui` version `2.5.0` to the project's dependencies to automatically generate OpenAPI 3 description payloads and host a Swagger UI layout.
+  - Verified compilation and automated tests execute cleanly using `bash init.sh`.
+  - Launched the application stack in Docker, confirming successful container initialization and container health.
+  - Inspected Swagger UI availability on the host machine at `/swagger-ui/index.html` and verified the JSON spec at `/v3/api-docs`.
+- **Status:** Completed F-19. Swagger UI and OpenAPI documentation are fully integrated and verified.
