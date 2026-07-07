@@ -28,6 +28,7 @@ services:
       - DB_URL=jdbc:postgresql://db:5432/employeedb
       - DB_USERNAME=${DB_USERNAME}
       - DB_PASSWORD=${DB_PASSWORD}
+      - JPA_DDL_AUTO=update
 
 volumes:
   pgdata:

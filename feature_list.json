@@ -239,6 +239,17 @@
       "evidence": [
         "pom.xml"
       ]
+    },
+    {
+      "id": "F-20",
+      "name": "Refactor application.properties to YAML",
+      "description": "Convert application.properties to application.yml, setting production-grade defaults (ddl-auto to validate, disabling show-sql, configuring INFO logging, routing logs to stdout, and adding tuned connection pooling parameters).",
+      "status": "completed",
+      "last_updated": "2026-07-07",
+      "evidence": [
+        "src/main/resources/application.yml",
+        "docker-compose.yml"
+      ]
     }
   ]
 }

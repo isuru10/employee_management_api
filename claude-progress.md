@@ -6,7 +6,7 @@ This log tracks all agent sessions, features completed, and verification outcome
 
 ## Active Status
 - **Current Phase:** Architectural Refactoring
-- **Active Feature:** Integrate Swagger/OpenAPI Documentation (F-19)
+- **Active Feature:** Refactor application.properties to YAML (F-20)
 - **Status:** Completed
 
 ---
@@ -214,3 +214,18 @@ This log tracks all agent sessions, features completed, and verification outcome
   - Launched the application stack in Docker, confirming successful container initialization and container health.
   - Inspected Swagger UI availability on the host machine at `/swagger-ui/index.html` and verified the JSON spec at `/v3/api-docs`.
 - **Status:** Completed F-19. Swagger UI and OpenAPI documentation are fully integrated and verified.
+
+### Session 21: 2026-07-07T21:34Z
+- **Objective:** Execute F-20: Refactor application.properties to YAML.
+- **Accomplishments:**
+  - Removed the deprecated `application.properties` configuration file.
+  - Created a hardened `application.yml` file configuring:
+    - Fail-safe database schema validations `ddl-auto: ${JPA_DDL_AUTO:validate}`.
+    - Disabling of system-level SQL execution printing (`show-sql: false` and `generate-ddl: false`).
+    - Tuned Hikari connection pooling parameters (`maximum-pool-size: 20`, `minimum-idle: 5`, etc.).
+    - Higher performance app logging (`INFO` level instead of verbose `DEBUG` statements).
+    - Container-native stdout logging (no `/app/logs/app.log` file generation).
+  - Modified `docker-compose.yml` app configuration to inject `JPA_DDL_AUTO=update` to support dynamic database updates on local starts.
+  - Verified that local compilations, unit/service tests, Jacoco coverage, and Pitest mutation metrics pass clean via `bash init.sh`.
+  - Confirmed the container stack boots correctly, connects to PostgreSQL, marks itself as `healthy`, logs exclusively to stdout, and limits logging to `INFO` level.
+- **Status:** Completed F-20. Configuration successfully refactored and hardened for production.
