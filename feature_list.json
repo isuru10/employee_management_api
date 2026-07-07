@@ -208,6 +208,16 @@
         "docker-compose.yml",
         "AGENTS.md"
       ]
+    },
+    {
+      "id": "F-17",
+      "name": "Production-grade Dockerfile",
+      "description": "Secure the application container by introducing non-root execution users, directory permission controls, and JVM container awareness tuning inside the multi-stage Dockerfile.",
+      "status": "completed",
+      "last_updated": "2026-07-07",
+      "evidence": [
+        "Dockerfile"
+      ]
     }
   ]
 }

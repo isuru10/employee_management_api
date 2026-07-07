@@ -6,7 +6,7 @@ This log tracks all agent sessions, features completed, and verification outcome
 
 ## Active Status
 - **Current Phase:** Architectural Refactoring
-- **Active Feature:** Dockerize Application Service (F-16)
+- **Active Feature:** Production-grade Dockerfile (F-17)
 - **Status:** Completed
 
 ---
@@ -184,3 +184,14 @@ This log tracks all agent sessions, features completed, and verification outcome
   - Validated that the Docker stack compiles, builds, and starts successfully, connecting the application service to the Postgres container with Hikari connection pool configuration.
   - Verified final code validations remain fully green via `bash init.sh`.
 - **Status:** Completed F-16. The application service is fully containerized.
+
+### Session 18: 2026-07-07T21:05Z
+- **Objective:** Execute F-17: Production-grade Dockerfile.
+- **Accomplishments:**
+  - Upgraded the `Dockerfile` with multi-stage BuildKit cache mounts (`--mount=type=cache,target=/root/.m2`) to speed up package compilation and offline dependency resolution.
+  - Locked down container filesystem permissions by creating a writeable `/app/logs` directory owned by `spring:spring` and copying the jar file with default `root` ownership.
+  - Configured a container-level healthcheck endpoint lookup (`HEALTHCHECK` with `wget` to `/api/employees/all`).
+  - Tuned JVM parameters in the container entrypoint for enterprise-grade safety: enabled `UseContainerSupport`, specified `InitialRAMPercentage` (50%) and `MaxRAMPercentage` (75%), added `ExitOnOutOfMemoryError` to enable orchestrator failover, configured G1 Garbage Collector (`UseG1GC`), and pointed to `/dev/urandom` for entropy.
+  - Successfully verified the container builds, starts, connects to Postgres, marks itself as `healthy`, and enforces read-only write protection on `/app/app.jar` but allows writes in `/app/logs/`.
+  - Confirmed health check metrics pass clean via `bash init.sh`.
+- **Status:** Completed F-17. Production-grade Dockerfile successfully implemented and verified.
