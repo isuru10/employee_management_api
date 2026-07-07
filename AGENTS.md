@@ -64,3 +64,4 @@ Always use the Maven Wrapper (`./mvnw`) to manage the application lifecycle:
 8. **No Placeholders:** Write fully functional code. Do not use comments like `// TODO: implement this later`.
 9. **Verification Gate:** Every session code modification must be verified by running `./mvnw test`. Never declare victory early.
 10. **State Updates:** Before finishing your turn, update `feature_list.json` and `claude-progress.md` with your progress and current state.
+11. **Test-Driven Development (TDD):** Implement all features and modifications using a TDD approach. Always write a failing test first that represents the new capability or bug fix, verify the test fails, implement the minimum code required to make it pass, and then verify the test passes. Never write production code before having a corresponding failing test.

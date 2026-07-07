@@ -18,3 +18,4 @@
 - **Validation:** Use `@Valid` on controller requests and handle validation exceptions globally using a `@RestControllerAdvice` class returning RFC 7807 `ProblemDetail` payloads.
 - **Tests:** Use JUnit 5 (JUnit Jupiter) annotations only. No JUnit 4 annotations.
 - **No Mocking / Placeholders:** Write fully functional code without placeholder comments.
+- **TDD Requirement:** Always write a failing test first before implementing any production code changes, and verify the test fails and subsequently passes.

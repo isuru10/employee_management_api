@@ -75,16 +75,25 @@ else
     exit 1
 fi
 
-# 5. Run Test Suite
-echo "Running existing test suite..."
-if ./mvnw test > /dev/null 2>&1; then
-    echo -e "${GREEN}[PASS]${NC} All tests passed."
+# 5. Run Test Suite & CRAP Metrics Check
+echo "Running tests and CRAP metrics check..."
+if ./mvnw clean verify > /dev/null 2>&1; then
+    echo -e "${GREEN}[PASS]${NC} All tests and CRAP metrics check passed."
 else
-    echo -e "${RED}[FAIL]${NC} Test suite failed!"
+    echo -e "${RED}[FAIL]${NC} Test suite or CRAP metrics check failed!"
     exit 1
 fi
 
-# 6. Check Git Status (Chain of Small Steps check)
+# 6. Run Mutation Testing Check
+echo "Running mutation testing..."
+if ./mvnw pitest:mutationCoverage > /dev/null 2>&1; then
+    echo -e "${GREEN}[PASS]${NC} Mutation testing completed successfully."
+else
+    echo -e "${RED}[FAIL]${NC} Mutation testing failed!"
+    exit 1
+fi
+
+# 7. Check Git Status (Chain of Small Steps check)
 echo "Checking Git status..."
 if git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
     if [[ -n $(git status -s) ]]; then
