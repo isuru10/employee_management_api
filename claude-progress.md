@@ -5,8 +5,8 @@ This log tracks all agent sessions, features completed, and verification outcome
 ---
 
 ## Active Status
-- **Current Phase:** Architectural Refactoring
-- **Active Feature:** Refactor Skill Association to ID-based Resolution (F-22)
+- **Current Phase:** Modernization Complete
+- **Active Feature:** None (Modernization Roadmap Fully Completed)
 - **Status:** Completed
 
 ---
@@ -260,3 +260,12 @@ This log tracks all agent sessions, features completed, and verification outcome
   - Ensured proper transactional database hygiene by autowiring both entity repositories and performing cascading deletions (`Employee` followed by `Skill`) prior to each test case.
   - Verified that all unit tests, newly added integration tests, Jacoco coverage limits, Pitest mutations, and CRAP complexity check gates pass successfully via `bash init.sh`.
 - **Status:** Completed F-23. H2-backed API integration testing framework implemented and validated.
+
+### Session 25: 2026-07-07T23:22Z
+- **Objective:** Evaluate and conclude F-24 (Jackson Read-Only Annotations) and wrap up modernization.
+- **Accomplishments:**
+  - Evaluated Jackson's `@JsonProperty(access = Access.READ_ONLY)` and resolved record parameter name deserialization issues.
+  - Determined that since security is already programmatically enforced via Controller-level DTO overrides and MapStruct ignores, additional annotations for Swagger UI did not warrant the complexity overhead in Java Records.
+  - Discarded DTO annotation changes to keep DTO classes clean, immutable, and fully compatible with standard client deserializers.
+  - Verified git workspace is in a clean, fully green state.
+- **Status:** Completed. Modernization roadmap successfully finalized.
