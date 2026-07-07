@@ -1,4 +1,4 @@
-package com.ruhuna.employee_management_api.api;
+package com.ruhuna.employee_management_api.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;

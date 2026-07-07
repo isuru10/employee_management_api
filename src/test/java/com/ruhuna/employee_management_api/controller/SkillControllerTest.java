@@ -1,9 +1,9 @@
-package com.ruhuna.employee_management_api.api;
+package com.ruhuna.employee_management_api.controller;
 
 import com.ruhuna.employee_management_api.Mapper;
-import com.ruhuna.employee_management_api.db.SkillRepository;
+import com.ruhuna.employee_management_api.repository.SkillRepository;
 import com.ruhuna.employee_management_api.model.Skill;
-import com.ruhuna.employee_management_api.viewModel.SkillViewModel;
+import com.ruhuna.employee_management_api.dto.SkillDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -37,12 +37,12 @@ public class SkillControllerTest {
     @Test
     public void testGetAll() {
         Skill skill = new Skill("Java");
-        SkillViewModel viewModel = new SkillViewModel(10L, "Java", List.of());
+        SkillDto dto = new SkillDto(10L, "Java", List.of());
 
         when(skillRepository.findAll()).thenReturn(Collections.singletonList(skill));
-        when(mapper.convertToSkillViewModel(skill)).thenReturn(viewModel);
+        when(mapper.convertToSkillDto(skill)).thenReturn(dto);
 
-        List<SkillViewModel> result = skillController.getAll();
+        List<SkillDto> result = skillController.getAll();
 
         assertEquals(1, result.size());
         assertEquals("Java", result.get(0).description());
@@ -51,12 +51,12 @@ public class SkillControllerTest {
     @Test
     public void testGetById_Success() {
         Skill skill = new Skill("Java");
-        SkillViewModel viewModel = new SkillViewModel(10L, "Java", List.of());
+        SkillDto dto = new SkillDto(10L, "Java", List.of());
 
         when(skillRepository.findById(10L)).thenReturn(Optional.of(skill));
-        when(mapper.convertToSkillViewModel(skill)).thenReturn(viewModel);
+        when(mapper.convertToSkillDto(skill)).thenReturn(dto);
 
-        SkillViewModel result = skillController.getById(10L);
+        SkillDto result = skillController.getById(10L);
 
         assertNotNull(result);
         assertEquals("Java", result.description());
@@ -70,17 +70,17 @@ public class SkillControllerTest {
 
     @Test
     public void testSave_Success() {
-        SkillViewModel viewModel = new SkillViewModel(null, "Java", List.of());
+        SkillDto dto = new SkillDto(null, "Java", List.of());
         Skill skill = new Skill("Java");
 
-        when(mapper.updateSkillFromViewModel(any(Skill.class), any(SkillViewModel.class))).thenAnswer(invocation -> {
+        when(mapper.updateSkillFromDto(any(Skill.class), any(SkillDto.class))).thenAnswer(invocation -> {
             Skill s = invocation.getArgument(0);
             s.setDescription("Java");
             return s;
         });
-        when(mapper.convertToSkillViewModel(any(Skill.class))).thenReturn(viewModel);
+        when(mapper.convertToSkillDto(any(Skill.class))).thenReturn(dto);
 
-        SkillViewModel result = skillController.save(viewModel);
+        SkillDto result = skillController.save(dto);
 
         assertNotNull(result);
         assertEquals("Java", result.description());

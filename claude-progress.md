@@ -5,8 +5,8 @@ This log tracks all agent sessions, features completed, and verification outcome
 ---
 
 ## Active Status
-- **Current Phase:** Configuration & Containerization
-- **Active Feature:** Docker Database Setup (F-11)
+- **Current Phase:** Architectural Refactoring
+- **Active Feature:** Refactor Package Layout (F-12)
 - **Status:** Completed
 
 ---
@@ -125,3 +125,17 @@ This log tracks all agent sessions, features completed, and verification outcome
   - Verified Docker Compose configurations map variables correctly from the `.env` file via `docker compose config`.
   - Documented container startup, shutdown, and logging commands in [AGENTS.md](file:///Users/isuru/Documents/Workspace/employee_management_api/AGENTS.md).
 - **Status:** Completed F-11. Docker database setup is fully completed and verified.
+
+### Session 13: 2026-07-07T17:30Z
+- **Objective:** Execute F-12: Refactor Package Layout.
+- **Accomplishments:**
+  - Restructured the package layout from legacy names to standard Spring conventions:
+    - Moved DTOs from `viewModel` to `dto` and renamed them from `EmployeeViewModel` and `SkillViewModel` to `EmployeeDto` and `SkillDto` respectively.
+    - Moved Controllers from `api` to `controller`.
+    - Moved Repositories and Seeders from `db` to `repository`.
+  - Moved and updated all test files and dependencies under `src/test/java/`.
+  - Updated mapping classes (`Mapper.java`) and mapping test suites.
+  - Cleared legacy packages and directories.
+  - Updated directory validation logic in `init.sh` and layout maps in `AGENTS.md`.
+  - Confirmed 100% test success, build validity, and mutation test pass via `bash init.sh`.
+- **Status:** Completed F-12. Directory layout matches modern Spring guidelines.

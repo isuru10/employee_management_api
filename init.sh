@@ -43,9 +43,9 @@ fi
 # 3. Check Directory Layout
 REQUIRED_DIRS=(
     "src/main/java/com/ruhuna/employee_management_api/model"
-    "src/main/java/com/ruhuna/employee_management_api/db"
-    "src/main/java/com/ruhuna/employee_management_api/viewModel"
-    "src/main/java/com/ruhuna/employee_management_api/api"
+    "src/main/java/com/ruhuna/employee_management_api/repository"
+    "src/main/java/com/ruhuna/employee_management_api/dto"
+    "src/main/java/com/ruhuna/employee_management_api/controller"
     "src/test/java/com/ruhuna/employee_management_api"
 )
 

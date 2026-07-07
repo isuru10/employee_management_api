@@ -2,8 +2,8 @@ package com.ruhuna.employee_management_api;
 
 import com.ruhuna.employee_management_api.model.Employee;
 import com.ruhuna.employee_management_api.model.Skill;
-import com.ruhuna.employee_management_api.viewModel.EmployeeViewModel;
-import com.ruhuna.employee_management_api.viewModel.SkillViewModel;
+import com.ruhuna.employee_management_api.dto.EmployeeDto;
+import com.ruhuna.employee_management_api.dto.SkillDto;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -13,12 +13,12 @@ import java.util.stream.Collectors;
 @Component
 public class Mapper {
 
-    public EmployeeViewModel convertToEmployeeViewModel(Employee employee){
-        List<SkillViewModel> skills = employee.getSkills().stream()
-                .map(skill -> new SkillViewModel(skill.getId(), skill.getDescription(), List.of()))
+    public EmployeeDto convertToEmployeeDto(Employee employee){
+        List<SkillDto> skills = employee.getSkills().stream()
+                .map(skill -> new SkillDto(skill.getId(), skill.getDescription(), List.of()))
                 .collect(Collectors.toList());
 
-        return new EmployeeViewModel(
+        return new EmployeeDto(
                 employee.getId(),
                 employee.getName(),
                 employee.getEmail(),
@@ -27,11 +27,11 @@ public class Mapper {
         );
     }
 
-    public SkillViewModel convertToSkillViewModel(Skill skill){
+    public SkillDto convertToSkillDto(Skill skill){
         Set<Employee> employees = skill.getEmployees();
 
-        List<EmployeeViewModel> employeeViewModels = employees.stream()
-                .map(employee -> new EmployeeViewModel(
+        List<EmployeeDto> employeeDtos = employees.stream()
+                .map(employee -> new EmployeeDto(
                         employee.getId(),
                         employee.getName(),
                         employee.getEmail(),
@@ -40,17 +40,17 @@ public class Mapper {
                 ))
                 .collect(Collectors.toList());
 
-        return new SkillViewModel(
+        return new SkillDto(
                 skill.getId(),
                 skill.getDescription(),
-                employeeViewModels
+                employeeDtos
         );
     }
 
-    public Employee updateEmployeeFromViewModel(Employee employee, EmployeeViewModel viewModel, Set<Skill> skills){
-        employee.setName(viewModel.name());
-        employee.setDob(viewModel.dob());
-        employee.setEmail(viewModel.email());
+    public Employee updateEmployeeFromDto(Employee employee, EmployeeDto dto, Set<Skill> skills){
+        employee.setName(dto.name());
+        employee.setDob(dto.dob());
+        employee.setEmail(dto.email());
 
         // Link skills bidirectionally
         skills.forEach(skill -> skill.getEmployees().add(employee));
@@ -59,8 +59,8 @@ public class Mapper {
         return employee;
     }
 
-    public Skill updateSkillFromViewModel(Skill skill, SkillViewModel viewModel){
-        skill.setDescription(viewModel.description());
+    public Skill updateSkillFromDto(Skill skill, SkillDto dto){
+        skill.setDescription(dto.description());
         return skill;
     }
 }

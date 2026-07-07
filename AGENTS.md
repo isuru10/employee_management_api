@@ -28,14 +28,14 @@ Ensure you maintain this structure. Do not create ad-hoc files in the root folde
 │   │   ├── java/com/ruhuna/employee_management_api/
 │   │   │   ├── EmployeeManagementApiApplication.java # App entry point
 │   │   │   ├── Mapper.java                           # DTO Mapping utility
-│   │   │   ├── api/                                  # REST Controllers
-│   │   │   ├── db/                                   # Repository & Seeders
+│   │   │   ├── controller/                           # REST Controllers
+│   │   │   ├── dto/                                  # DTO Records
 │   │   │   ├── model/                                # JPA Entities (Employee, Skill)
-│   │   │   └── viewModel/                            # DTOs / View Models
+│   │   │   └── repository/                           # Spring Data Repositories & Seeders
 │   │   └── resources/
 │   │       └── application.properties                # Spring configs
 │   └── test/
-│       └── java/com/ruhuna/employee_management_api/   # JUnit Tests
+│       └── java/com/ruhuna/employee_management_api/   # JUnit Tests (Controller, Mapper)
 ```
 
 ---

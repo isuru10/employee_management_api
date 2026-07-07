@@ -1,4 +1,4 @@
-package com.ruhuna.employee_management_api.api;
+package com.ruhuna.employee_management_api.controller;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

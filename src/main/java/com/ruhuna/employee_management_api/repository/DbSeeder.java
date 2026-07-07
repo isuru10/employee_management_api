@@ -1,4 +1,4 @@
-package com.ruhuna.employee_management_api.db;
+package com.ruhuna.employee_management_api.repository;
 
 import com.ruhuna.employee_management_api.model.Employee;
 import com.ruhuna.employee_management_api.model.Skill;

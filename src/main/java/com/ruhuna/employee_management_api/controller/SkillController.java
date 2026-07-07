@@ -1,9 +1,9 @@
-package com.ruhuna.employee_management_api.api;
+package com.ruhuna.employee_management_api.controller;
 
 import com.ruhuna.employee_management_api.Mapper;
-import com.ruhuna.employee_management_api.db.SkillRepository;
+import com.ruhuna.employee_management_api.repository.SkillRepository;
 import com.ruhuna.employee_management_api.model.Skill;
-import com.ruhuna.employee_management_api.viewModel.SkillViewModel;
+import com.ruhuna.employee_management_api.dto.SkillDto;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,29 +25,29 @@ public class SkillController {
     }
 
     @GetMapping("/all")
-    public List<SkillViewModel> getAll(){
+    public List<SkillDto> getAll(){
         return this.skillRepository.findAll().stream()
-                .map(skill -> this.mapper.convertToSkillViewModel(skill))
+                .map(skill -> this.mapper.convertToSkillDto(skill))
                 .collect(Collectors.toList());
     }
 
     @GetMapping("/{id}")
-    public SkillViewModel getById(@PathVariable Long id){
+    public SkillDto getById(@PathVariable Long id){
         Skill skill = this.skillRepository.findById(id).orElse(null);
 
         if(skill == null){
             throw new EntityNotFoundException();
         }
 
-        return this.mapper.convertToSkillViewModel(skill);
+        return this.mapper.convertToSkillDto(skill);
     }
 
     @PostMapping
-    public SkillViewModel save(@Valid @RequestBody SkillViewModel viewModel) {
+    public SkillDto save(@Valid @RequestBody SkillDto dto) {
 
         Skill skill;
-        if(viewModel.id() != null){
-            skill = this.skillRepository.findById(viewModel.id()).orElse(null);
+        if(dto.id() != null){
+            skill = this.skillRepository.findById(dto.id()).orElse(null);
             if(skill == null){
                 throw new EntityNotFoundException();
             }
@@ -55,10 +55,10 @@ public class SkillController {
             skill = new Skill();
         }
 
-        this.mapper.updateSkillFromViewModel(skill, viewModel);
+        this.mapper.updateSkillFromDto(skill, dto);
         this.skillRepository.save(skill);
 
-        return this.mapper.convertToSkillViewModel(skill);
+        return this.mapper.convertToSkillDto(skill);
     }
 
     @DeleteMapping("/{id}")

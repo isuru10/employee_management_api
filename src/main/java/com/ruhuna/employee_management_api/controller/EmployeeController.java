@@ -1,11 +1,11 @@
-package com.ruhuna.employee_management_api.api;
+package com.ruhuna.employee_management_api.controller;
 
 import com.ruhuna.employee_management_api.Mapper;
-import com.ruhuna.employee_management_api.db.EmployeeRepository;
-import com.ruhuna.employee_management_api.db.SkillRepository;
+import com.ruhuna.employee_management_api.repository.EmployeeRepository;
+import com.ruhuna.employee_management_api.repository.SkillRepository;
 import com.ruhuna.employee_management_api.model.Employee;
 import com.ruhuna.employee_management_api.model.Skill;
-import com.ruhuna.employee_management_api.viewModel.EmployeeViewModel;
+import com.ruhuna.employee_management_api.dto.EmployeeDto;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,28 +33,28 @@ public class EmployeeController {
     }
 
     @GetMapping("/all")
-    public List<EmployeeViewModel> getAll(){
+    public List<EmployeeDto> getAll(){
         return employeeRepository.findAll()
                 .stream()
-                .map(employee -> this.mapper.convertToEmployeeViewModel(employee))
+                .map(employee -> this.mapper.convertToEmployeeDto(employee))
                 .collect(Collectors.toList());
     }
 
     @GetMapping("/{id}")
-    public EmployeeViewModel getById(@PathVariable long id){
+    public EmployeeDto getById(@PathVariable long id){
         Employee employee = employeeRepository.findById(id).orElse(null);
         if(employee == null){
             throw new EntityNotFoundException();
         }
-        return this.mapper.convertToEmployeeViewModel(employee);
+        return this.mapper.convertToEmployeeDto(employee);
     }
 
     @PostMapping
-    public EmployeeViewModel save(@Valid @RequestBody EmployeeViewModel viewModel) {
+    public EmployeeDto save(@Valid @RequestBody EmployeeDto dto) {
 
         Employee employee;
-        if(viewModel.id() != null){
-            employee = employeeRepository.findById(viewModel.id()).orElse(null);
+        if(dto.id() != null){
+            employee = employeeRepository.findById(dto.id()).orElse(null);
             if(employee == null){
                 throw new EntityNotFoundException();
             }
@@ -62,19 +62,19 @@ public class EmployeeController {
             employee = new Employee();
         }
 
-        Set<Skill> skills = viewModel.skills().stream()
-                .map(viewModel1 -> {
-                    Skill skill = skillRepository.findByDescription(viewModel1.description());
+        Set<Skill> skills = dto.skills().stream()
+                .map(skillDto -> {
+                    Skill skill = skillRepository.findByDescription(skillDto.description());
                     if (skill == null) {
                         throw new EntityNotFoundException();
                     }
                     return skill;
                 }).collect(Collectors.toSet());
 
-        this.mapper.updateEmployeeFromViewModel(employee, viewModel, skills);
+        this.mapper.updateEmployeeFromDto(employee, dto, skills);
         this.employeeRepository.save(employee);
 
-        return this.mapper.convertToEmployeeViewModel(employee);
+        return this.mapper.convertToEmployeeDto(employee);
     }
 
     @DeleteMapping("/{id}")

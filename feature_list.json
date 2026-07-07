@@ -135,6 +135,31 @@
         "docker-compose.yml",
         "AGENTS.md"
       ]
+    },
+    {
+      "id": "F-12",
+      "name": "Refactor Package Layout",
+      "description": "Rename packages to match standard Spring conventions (viewModel -> dto, api -> controller, db -> repository) and update all imports.",
+      "status": "completed",
+      "last_updated": "2026-07-07",
+      "evidence": [
+        "src/main/java/com/ruhuna/employee_management_api/dto/EmployeeDto.java",
+        "src/main/java/com/ruhuna/employee_management_api/dto/SkillDto.java",
+        "src/main/java/com/ruhuna/employee_management_api/controller/EmployeeController.java",
+        "src/main/java/com/ruhuna/employee_management_api/controller/SkillController.java",
+        "src/main/java/com/ruhuna/employee_management_api/controller/GlobalExceptionHandler.java",
+        "src/main/java/com/ruhuna/employee_management_api/repository/EmployeeRepository.java",
+        "src/main/java/com/ruhuna/employee_management_api/repository/SkillRepository.java",
+        "src/main/java/com/ruhuna/employee_management_api/repository/DbSeeder.java"
+      ]
+    },
+    {
+      "id": "F-13",
+      "name": "Introduce Service Layer",
+      "description": "Create EmployeeService and SkillService classes to encapsulate transaction boundaries, domain mapping orchestration, and business logic, making controllers thin.",
+      "status": "todo",
+      "last_updated": "2026-07-07",
+      "evidence": []
     }
   ]
 }

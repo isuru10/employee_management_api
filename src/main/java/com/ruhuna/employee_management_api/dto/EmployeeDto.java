@@ -1,28 +1,28 @@
-package com.ruhuna.employee_management_api.viewModel;
+package com.ruhuna.employee_management_api.dto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.List;
 
-public record EmployeeViewModel(
+public record EmployeeDto(
     Long id,
     @NotNull String name,
     @Email String email,
     Date dob,
-    List<SkillViewModel> skills
+    List<SkillDto> skills
 ) {
-    public EmployeeViewModel {
+    public EmployeeDto {
         if (skills == null) {
             skills = List.of();
         }
     }
 
-    public EmployeeViewModel() {
+    public EmployeeDto() {
         this(null, null, null, null, List.of());
     }
 
-    public EmployeeViewModel(String name, Date dob) {
+    public EmployeeDto(String name, Date dob) {
         this(null, name, null, dob, List.of());
     }
 }

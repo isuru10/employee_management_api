@@ -1,24 +1,24 @@
-package com.ruhuna.employee_management_api.viewModel;
+package com.ruhuna.employee_management_api.dto;
 
 import jakarta.validation.constraints.NotNull;
 import java.util.List;
 
-public record SkillViewModel(
+public record SkillDto(
     Long id,
     @NotNull String description,
-    List<EmployeeViewModel> employees
+    List<EmployeeDto> employees
 ) {
-    public SkillViewModel {
+    public SkillDto {
         if (employees == null) {
             employees = List.of();
         }
     }
 
-    public SkillViewModel() {
+    public SkillDto() {
         this(null, null, List.of());
     }
 
-    public SkillViewModel(String description) {
+    public SkillDto(String description) {
         this(null, description, List.of());
     }
 }
