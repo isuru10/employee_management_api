@@ -51,11 +51,13 @@ Always use the Maven Wrapper (`./mvnw`) to manage the application lifecycle:
 - **Run Locally:** `./mvnw spring-boot:run`
 - **Initialize & Health Check:** `bash init.sh`
 
-### Database Container Management (Docker Compose)
-A local PostgreSQL database is configured via Docker Compose. Run these commands from the project root:
-- **Start Database (Background):** `docker compose up -d`
-- **Stop Database:** `docker compose down`
-- **View Database Logs:** `docker compose logs -f db`
+### Docker Stack Management (Docker Compose)
+The database and application are orchestrated using Docker Compose. Run these commands from the project root:
+- **Start Entire Stack (Build & Run):** `docker compose up --build -d`
+- **Start Database Only:** `docker compose up -d db`
+- **Stop Stack:** `docker compose down`
+- **View App Logs:** `docker compose logs -f app`
+- **View DB Logs:** `docker compose logs -f db`
 
 ---
 

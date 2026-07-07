@@ -46,6 +46,8 @@ REQUIRED_DIRS=(
     "src/main/java/com/ruhuna/employee_management_api/repository"
     "src/main/java/com/ruhuna/employee_management_api/dto"
     "src/main/java/com/ruhuna/employee_management_api/controller"
+    "src/main/java/com/ruhuna/employee_management_api/mapper"
+    "src/main/java/com/ruhuna/employee_management_api/service"
     "src/test/java/com/ruhuna/employee_management_api"
 )
 

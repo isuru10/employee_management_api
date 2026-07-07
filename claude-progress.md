@@ -6,7 +6,7 @@ This log tracks all agent sessions, features completed, and verification outcome
 
 ## Active Status
 - **Current Phase:** Architectural Refactoring
-- **Active Feature:** Configure Application Logging (F-15)
+- **Active Feature:** Dockerize Application Service (F-16)
 - **Status:** Completed
 
 ---
@@ -174,3 +174,13 @@ This log tracks all agent sessions, features completed, and verification outcome
   - Confirmed all tests (including the log capture tests) compile and pass cleanly.
   - Executed final quality gate verification via `bash init.sh`.
 - **Status:** Completed F-15. Application logging is fully integrated and tested under TDD rules.
+
+### Session 17: 2026-07-07T20:00Z
+- **Objective:** Execute F-16: Dockerize Application Service.
+- **Accomplishments:**
+  - Created a multi-stage `Dockerfile` using `amazoncorretto:21-alpine` to compile and package the application cleanly inside a lightweight container image.
+  - Updated `docker-compose.yml` to define the database container health check and configure the Java application container (`employee-app`), specifying container names, ports, and dynamic environment variables mapped to the `.env` configuration.
+  - Updated `AGENTS.md` to document the container lifecycle commands for launching, building, stopping, and viewing logs for the entire Docker stack.
+  - Validated that the Docker stack compiles, builds, and starts successfully, connecting the application service to the Postgres container with Hikari connection pool configuration.
+  - Verified final code validations remain fully green via `bash init.sh`.
+- **Status:** Completed F-16. The application service is fully containerized.

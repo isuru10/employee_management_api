@@ -196,6 +196,18 @@
         "src/test/java/com/ruhuna/employee_management_api/service/EmployeeServiceTest.java",
         "src/test/java/com/ruhuna/employee_management_api/service/SkillServiceTest.java"
       ]
+    },
+    {
+      "id": "F-16",
+      "name": "Dockerize Application Service",
+      "description": "Create a multi-stage Dockerfile for the Spring Boot service and configure docker-compose.yml to build and orchestrate the web and database containers together.",
+      "status": "completed",
+      "last_updated": "2026-07-07",
+      "evidence": [
+        "Dockerfile",
+        "docker-compose.yml",
+        "AGENTS.md"
+      ]
     }
   ]
 }
